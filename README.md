@@ -1,5 +1,4 @@
-# Microservices
-==========================
+# Microservices 
  
 A sample microservice app consists of basic flow from end to end
  
@@ -10,7 +9,7 @@ ZipKin + Slueth => Distributed Tracing logs
  
 
 
-### Microservices Architecture 
+## Microservices Architecture 
 
 ```
 eureka:
@@ -26,8 +25,7 @@ eureka:
 
 
 
-Department Service:
-==================
+### Department Service: 
 ```
 curl --location --request POST 'http://localhost:9001/departments/' \
 --header 'Content-Type: application/json' \
