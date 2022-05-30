@@ -31,6 +31,12 @@ Generally when microservices scalling much more, when requests are spanning from
 This service is basically used to make all common properties or configuration info to once place and maintain in any repository and make it secure with OAuth enabled authentication, now a days it is pretty similar to vault/secret manager service in cloud.
 
 
+### How can I try this in my local
+
+Clone the project
+```
+git clone 
+```
 
 
 ### Eureka Configuration 
@@ -173,6 +179,22 @@ curl --location --request GET 'http://localhost:9191/users/1'
 ```
 
 
+## Hystrix Dashboard to see the health of the services
+
+- Call following on browser , so that hystrix stream can be enabled
+```
+http://localhost:9191/actuator/hystrix.stream
+```
+
+- Next if you call see hystrix dashboard, you can see the status of the service
+
+
+<img width="1446" alt="image" src="https://user-images.githubusercontent.com/23380019/171011696-1130b554-17a1-4c65-a1fd-28e00d858dac.png">
+
+<img width="1454" alt="image" src="https://user-images.githubusercontent.com/23380019/171012009-118a3f3e-4abe-491e-912f-927cd3251a47.png">
+
+
+
 ## Zupkin Server : for distributed tracing 
 
 For both user and dept services add following properties will push the logs to distributed ZipKin server
@@ -183,9 +205,16 @@ spring:
     url: http://127.0.0.1:9411
 ```
 
+
+- Download the latest released jar from zipkin website 
+- start the server 
 ```
-http://127.0.0.1:9411
+java -jar zipkin.jar
 ```
+
+- Restart all above services 
+- execute ./unitTest.sh
+- Now you can go to Zipkin dashboard and check the traces and play around there
 
 <img width="1418" alt="image" src="https://user-images.githubusercontent.com/23380019/171010969-b0fd2d03-3600-48ca-8b17-92fadab409cb.png">
 
