@@ -8,8 +8,34 @@ A sample microservice app consists of basic flow from end to end
 ZipKin + Slueth => Distributed Tracing logs
  
 
+## Flow 
 
-## Microservices Architecture 
+#### Department Service:
+ 
+This service exposes two APIs two save department and get department with ID
+
+#### Users Service:
+ 
+This service exposes two APIs two save user with dept_id and get user with user info and along with department info by calling above service
+
+#### ServiceRegistry
+ 
+This service is EurekaServer so that all other services can register with services, so that all other services become Eureka clients for this service, meaning every other service need @EnableEurekaClient and this defined @EnableEurekaServer
+
+#### HystrixDashboard
+ 
+Generally when microservices scalling much more, when requests are spanning from one to other then it is very common that any of the services can go down and causes other dependent services wait longer than expected and cause inconvience, it was very difficult to debug such scenarios where was the failure, hence somewhere we need break the loop saying "This Service is tempararly down", this is called as Circuite Breaker design principle in micirsoervice architecture. This can be achieved from Hystrix service.
+
+#### CloudConfigServer
+ 
+This service is basically used to make all common properties or configuration info to once place and maintain in any repository and make it secure with OAuth enabled authentication, now a days it is pretty similar to vault/secret manager service in cloud.
+
+
+
+
+### Eureka Configuration 
+
+General config
 
 ```
 eureka:
@@ -22,10 +48,15 @@ eureka:
     hostname: localhost
 ```
 
+<img width="1435" alt="image" src="https://user-images.githubusercontent.com/23380019/171010867-31d94a95-c99a-4a9a-ad47-b2dd86c238bf.png">
 
 
 
-### Department Service: 
+## Calling individual serivces : user and department
+
+### Department Service: Handy commands 
+
+To save dept
 ```
 curl --location --request POST 'http://localhost:9001/departments/' \
 --header 'Content-Type: application/json' \
@@ -36,13 +67,15 @@ curl --location --request POST 'http://localhost:9001/departments/' \
 }'
 ```
 
+To get dept
 ```
 curl --location --request GET 'http://localhost:9001/departments/1'
 ```
 
 
-### User Service: 
+### User Service: Handy commands 
 
+To save user 
 ```
  curl --location --request POST 'http://localhost:9002/users/' \
  --header 'Content-Type: application/json' \
@@ -54,14 +87,58 @@ curl --location --request GET 'http://localhost:9001/departments/1'
 }'
 ```
 
+To get user along with department info
 ```
 curl --location --request GET 'http://localhost:9002/users/1'
 ```
+
+Response
+```
+{
+   "user":{"userId":3,"firstName":"Ramu","lastName":"Evana","email":"ramu.evana@gmail.com","departmentId":1},
+   "department":{"departmentId":1,"departmentName":"CSE","departmentAddress":"Hyderabad","departmentCode":"CSE_01"}
+}
+```
+
+<img width="1337" alt="image" src="https://user-images.githubusercontent.com/23380019/171011046-6891cc6f-f34e-411c-90f6-b8e92d02bd2d.png">
+
+
+
+## Registering microservices(user and dept) with ServiceRegistry
+
+This service exposes one dashboard (Eureka Dashboard) to see all active registered services
+Next step is to make this servicd and up and all other services make them as Eureka clients
 
 
 
 ## API-GATEWAY Introduced:
 
+With API gateway we can directly call single host IP, then this sevice can redirects required based on resource URL to correpsonding service with defined routes 
+
+```
+cloud:
+    gateway:
+      routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/users/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: USER-SERVICE
+                fallbackuri: forward:/userServiceFallback
+        - id: DEPARTMENT-SERVICE
+          uri: lb://DEPARTMENT-SERVICE
+          predicates:
+            - Path=/departments/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: DEPARTMENT-SERVICE
+                fallbackuri: forward:/departmentServiceFallback
+
+```
 
 #### Department Service
 ```
@@ -97,9 +174,19 @@ curl --location --request GET 'http://localhost:9191/users/1'
 
 
 ## Zupkin Server : for distributed tracing 
+
+For both user and dept services add following properties will push the logs to distributed ZipKin server
+
+```
+spring: 
+  zipkin:
+    url: http://127.0.0.1:9411
+```
+
 ```
 http://127.0.0.1:9411
 ```
 
+<img width="1418" alt="image" src="https://user-images.githubusercontent.com/23380019/171010969-b0fd2d03-3600-48ca-8b17-92fadab409cb.png">
 
 
