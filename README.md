@@ -1,14 +1,23 @@
 # Microservices 
  
 A sample microservice app consists of basic flow from end to end
+
+```
+Client ==> APIGateway => ServiceRegistry => HystrixDashboard(CircuitBreaker) => UserService/DepartmentService => CloudConfigServer
+```
  
- Client ==> APIGateway => ServiceRegistry => HystrixDashboard(CircuitBreaker) => UserService/DepartmentService => CloudConfigServer
- 
- 
+Logging:
 ZipKin + Slueth => Distributed Tracing logs
+
+Security:
+Adding OAuth2 UAA to each service will help
  
 
-## Flow 
+![image](https://user-images.githubusercontent.com/23380019/171016829-1ac6225c-db88-40e2-b215-ca76fac918ca.png)
+
+ 
+
+## Description 
 
 #### Department Service:
  
@@ -33,11 +42,29 @@ This service is basically used to make all common properties or configuration in
 
 ### How can I try this in my local
 
-Clone the project
+- Clone the project
 ```
-git clone 
+git clone git@github.com:dcs-admin/microservices.git
 ```
 
+- Open six repos in individual IDEs either IntelliJ/Eclipse
+
+- Try to build and run individual service
+```
+mvn clean install
+mvn package
+mvn springboot:run
+```
+
+- Open following Dashboards to see the services up or nopt
+
+```
+http://localhost:8761/  -->> Eureka Dashboard: ServiceRegistry
+http://127.0.0.1:9411/zipkin/ --> Zipkin Server: Log Tracing
+http://localhost:9191/actuator/hystrix.stream --> Enable HystrixStream to check CircuitBreaker functionality
+http://localhost:9295/hystrix/monitor  --> Hystrix Dashboard: Add above URL here to stream the status 
+
+```
 
 ### Eureka Configuration 
 
