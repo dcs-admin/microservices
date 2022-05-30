@@ -12,7 +12,9 @@ ZipKin + Slueth => Distributed Tracing logs
 Security:
 Adding OAuth2 UAA to each service will help
 
-![Uploading image.png…]()
+![image](https://user-images.githubusercontent.com/23380019/171017871-3c1bf03c-d446-453a-80ce-772f73881652.png)
+
+
 
 ## Description 
 
