@@ -23,26 +23,84 @@ Pending: Adding OAuth2 UAA to each service will help
 
 ## Description 
 
+Total Number of services defined here 
+
+API-GATEWAY	  - 192.168.22.30:API-GATEWAY:9191
+CONFIG-SERVER	  - 192.168.22.30:CONFIG-SERVER:9296
+CUSTOMER-SERVICE	  - 192.168.22.30:CUSTOMER-SERVICE:9002
+HYSTRIX-DASHBOARD	 - 192.168.22.30:HYSTRIX-DASHBOARD:9295
+ORDER-SERVICE	  - 192.168.22.30:ORDER-SERVICE:9005
+PRODUCT-SERVICE	  - 192.168.22.30:PRODUCT-SERVICE:9001
+
 #### Product Service:
  
 This service exposes few APIs to save products and get product with ID
+
+```
+curl --location --request POST 'http://localhost:9001/products/' \
+--header 'Content-Type: application/json' \
+--data-raw '{ 
+ "productName": "Mobile",
+ "productAddress": "Narsapur",
+ "productCode": "MOB_101",
+ "price": 34000,
+ "category": "MOBILES"
+}'
+
+
+curl --location --request GET 'http://localhost:9001/products/1'
+```
 
 #### Customer Service:
  
 This service exposes few APIs to save customer with cust_id and get customer with customer info 
 
+```
+ curl --location --request POST 'http://localhost:9002/customers/' \
+ --header 'Content-Type: application/json' \
+--data-raw '{
+    "firstName": "Ramu",
+    "lastName": "Evana",
+    "email": "ramu.evana@gmail.com"
+}'
+
+curl --location --request GET 'http://localhost:9002/customers/1'
+```
+
 #### Order Service:
  
 This service exposes few APIs to get order info along with customer info and product info by calling above services
 
+```
+curl --location --request POST 'http://localhost:9005/orders/' \
+ --header 'Content-Type: application/json' \
+--data-raw '{
+    "customerId": "1",
+    "productId": "1",
+    "location": "Hyderabad"
+}'
 
-#### ServiceRegistry
+
+curl --location --request GET 'http://localhost:9005/orders/1'
+```
+
+#### ServiceRegistry (Discovery Service Design Pattern)
  
 This service is EurekaServer so that all other services can register with services, so that all other services become Eureka clients for this service, meaning every other service need @EnableEurekaClient and this defined @EnableEurekaServer
+
+URL: http://localhost:8761/
+
+![Uploading image.png…]()
+
 
 #### HystrixDashboard
  
 Generally when microservices scalling much more, when requests are spanning from one to other then it is very common that any of the services can go down and causes other dependent services wait longer than expected and cause inconvience, it was very difficult to debug such scenarios where was the failure, hence somewhere we need break the loop saying "This Service is tempararly down", this is called as Circuite Breaker design principle in micirsoervice architecture. This can be achieved from Hystrix service.
+
+URL: http://localhost:9295/hystrix
+
+![Uploading image.png…]()
+
 
 #### ConfigServerCloud
  
