@@ -1,30 +1,40 @@
 # Microservices 
+###### An Anji Evana self prepared document
  
 A sample microservice app consists of basic flow from end to end
 
 ```
-Client ==> APIGateway => ServiceRegistry => HystrixDashboard(CircuitBreaker) => UserService/DepartmentService => CloudConfigServer
+Client ==> 
+  Gateway-Service => 
+   ServiceRegistry =>
+    ResielenceDashboard(CircuitBreaker)=> 
+      CustomerService/OrderService/ProductService => 
+        ConfigServerCloud
 ```
  
 Logging:
-ZipKin + Slueth => Distributed Tracing logs
+Splunk(ELK) + ZipKin + Slueth => Distributed Tracing logs
 
 Security:
-Adding OAuth2 UAA to each service will help
+Pending: Adding OAuth2 UAA to each service will help
 
-![image](https://user-images.githubusercontent.com/23380019/171017871-3c1bf03c-d446-453a-80ce-772f73881652.png)
-
+![image](https://user-images.githubusercontent.com/23380019/171115561-9695febe-7be6-4a46-a033-8e50a10abc85.png)
 
 
 ## Description 
 
-#### Department Service:
+#### Product Service:
  
-This service exposes two APIs two save department and get department with ID
+This service exposes few APIs to save products and get product with ID
 
-#### Users Service:
+#### Customer Service:
  
-This service exposes two APIs two save user with dept_id and get user with user info and along with department info by calling above service
+This service exposes few APIs to save customer with cust_id and get customer with customer info 
+
+#### Order Service:
+ 
+This service exposes few APIs to get order info along with customer info and product info by calling above services
+
 
 #### ServiceRegistry
  
@@ -34,7 +44,7 @@ This service is EurekaServer so that all other services can register with servic
  
 Generally when microservices scalling much more, when requests are spanning from one to other then it is very common that any of the services can go down and causes other dependent services wait longer than expected and cause inconvience, it was very difficult to debug such scenarios where was the failure, hence somewhere we need break the loop saying "This Service is tempararly down", this is called as Circuite Breaker design principle in micirsoervice architecture. This can be achieved from Hystrix service.
 
-#### CloudConfigServer
+#### ConfigServerCloud
  
 This service is basically used to make all common properties or configuration info to once place and maintain in any repository and make it secure with OAuth enabled authentication, now a days it is pretty similar to vault/secret manager service in cloud.
 
@@ -42,11 +52,12 @@ This service is basically used to make all common properties or configuration in
 ### How can I try this in my local
 
 - Clone the project
+- 
 ```
 git clone git@github.com:dcs-admin/microservices.git
 ```
 
-- Open six repos in individual IDEs either IntelliJ/Eclipse
+- Open all repos in individual IDEs either IntelliJ/Eclipse
 
 - Try to build and run individual service
 ```
@@ -55,7 +66,9 @@ mvn package
 mvn springboot:run
 ```
 
-- Open following Dashboards to see the services up or nopt
+
+
+- Open following Dashboards to see the services up or not
 
 ```
 http://localhost:8761/  -->> Eureka Dashboard: ServiceRegistry
