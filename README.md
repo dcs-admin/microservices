@@ -311,8 +311,8 @@ The response would be like this
 "product":{"productId":1,"productName":"Mobile","productAddress":"Narsapur","productCode":"MOB_101","price":34000,"category":"MOBILES"},
 "customer":{"customerId":1,"firstName":"Ramu","lastName":"Evana","email":"ramu.evana@gmail.com"},"responseCode":200,"responseMessage":null}
 ```
+<img width="1488" alt="image" src="https://user-images.githubusercontent.com/23380019/172653699-deabe167-256f-43d3-9473-0e5dced738dc.png">
 
-![Uploading image.png…]()
 
 
 ## Hystrix Dashboard to see the health of the services
@@ -341,7 +341,6 @@ spring:
     url: http://127.0.0.1:9411
 ```
 
-
 - Download the latest released jar from zipkin website 
 - start the server 
 ```
@@ -352,6 +351,12 @@ java -jar zipkin.jar
 - execute ./unitTest.sh
 - Now you can go to Zipkin dashboard and check the traces and play around there
 
-<img width="1418" alt="image" src="https://user-images.githubusercontent.com/23380019/171010969-b0fd2d03-3600-48ca-8b17-92fadab409cb.png">
+<img width="1487" alt="image" src="https://user-images.githubusercontent.com/23380019/172654018-8f070682-b2a5-402c-95f9-0356ad94b771.png">
+
+<img width="1498" alt="image" src="https://user-images.githubusercontent.com/23380019/172654859-91531921-4230-4e16-b9fd-c30353d05b19.png">
+
+<img width="1479" alt="image" src="https://user-images.githubusercontent.com/23380019/172655080-1c87df83-a95c-4ae5-a1b1-b7aa63a3f23f.png">
+
+
 
 
