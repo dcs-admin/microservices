@@ -30,9 +30,9 @@ Total Number of services defined here
  CONFIG-SERVER	     - 192.168.1.1:CONFIG-SERVER:9296 
  HYSTRIX-DASHBOARD	 - 192.168.1.1:HYSTRIX-DASHBOARD:9295
  
- PRODUCT-SERVICE	   - 192.168.1.1:PRODUCT-SERVICE:9001
- CUSTOMER-SERVICE	  - 192.168.1.1:CUSTOMER-SERVICE:9002
- ORDER-SERVICE	     - 192.168.1.1:ORDER-SERVICE:9005
+ PRODUCT-SERVICE	  - 192.168.1.1:PRODUCT-SERVICE:9001
+ CUSTOMER-SERVICE	 - 192.168.1.1:CUSTOMER-SERVICE:9002
+ ORDER-SERVICE	    - 192.168.1.1:ORDER-SERVICE:9005
 ```
 
 #### Product Service:
@@ -93,7 +93,7 @@ This service is EurekaServer so that all other services can register with servic
 
 URL: http://localhost:8761/
 
-![Uploading image.png…]()
+<img width="1675" alt="image" src="https://user-images.githubusercontent.com/23380019/172650135-dbc58a20-ffb5-4ffb-8a18-f0bd725fc39b.png">
 
 
 #### HystrixDashboard
@@ -102,7 +102,7 @@ Generally when microservices scalling much more, when requests are spanning from
 
 URL: http://localhost:9295/hystrix
 
-![Uploading image.png…]()
+<img width="1677" alt="image" src="https://user-images.githubusercontent.com/23380019/172650307-64927729-fcec-41fb-9063-15cada8922ef.png">
 
 
 #### ConfigServerCloud
@@ -113,7 +113,6 @@ This service is basically used to make all common properties or configuration in
 ### How can I try this in my local
 
 - Clone the project
-- 
 ```
 git clone git@github.com:dcs-admin/microservices.git
 ```
@@ -126,8 +125,6 @@ mvn clean install
 mvn package
 mvn springboot:run
 ```
-
-
 
 - Open following Dashboards to see the services up or not
 
@@ -157,7 +154,7 @@ eureka:
 <img width="1435" alt="image" src="https://user-images.githubusercontent.com/23380019/171010867-31d94a95-c99a-4a9a-ad47-b2dd86c238bf.png">
 
 
-## Registering microservices(user and dept) with ServiceRegistry
+## Registering microservices(product, customer and order) with ServiceRegistry
 
 This service exposes one dashboard (Eureka Dashboard) to see all active registered services
 Next step is to make this servicd and up and all other services make them as Eureka clients
@@ -220,6 +217,8 @@ management:
         include: hystrix.stream
 
 ```
+
+![Uploading image.png…]()
 
 
 ### Product Service:
