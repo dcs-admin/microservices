@@ -157,59 +157,6 @@ eureka:
 <img width="1435" alt="image" src="https://user-images.githubusercontent.com/23380019/171010867-31d94a95-c99a-4a9a-ad47-b2dd86c238bf.png">
 
 
-
-## Calling individual serivces : user and department
-
-### Department Service: Handy commands 
-
-To save dept
-```
-curl --location --request POST 'http://localhost:9001/departments/' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "departmentName": "CSE",
-    "departmentAddress": "Hyderabad",
-    "departmentCode": "CSE_01"
-}'
-```
-
-To get dept
-```
-curl --location --request GET 'http://localhost:9001/departments/1'
-```
-
-
-### User Service: Handy commands 
-
-To save user 
-```
- curl --location --request POST 'http://localhost:9002/users/' \
- --header 'Content-Type: application/json' \
---data-raw '{
-    "firstName": "Ramu",
-    "lastName": "Evana",
-    "email": "ramu.evana@gmail.com",
-    "departmentId": "1"
-}'
-```
-
-To get user along with department info
-```
-curl --location --request GET 'http://localhost:9002/users/1'
-```
-
-Response
-```
-{
-   "user":{"userId":3,"firstName":"Ramu","lastName":"Evana","email":"ramu.evana@gmail.com","departmentId":1},
-   "department":{"departmentId":1,"departmentName":"CSE","departmentAddress":"Hyderabad","departmentCode":"CSE_01"}
-}
-```
-
-<img width="1337" alt="image" src="https://user-images.githubusercontent.com/23380019/171011046-6891cc6f-f34e-411c-90f6-b8e92d02bd2d.png">
-
-
-
 ## Registering microservices(user and dept) with ServiceRegistry
 
 This service exposes one dashboard (Eureka Dashboard) to see all active registered services
@@ -222,60 +169,114 @@ Next step is to make this servicd and up and all other services make them as Eur
 With API gateway we can directly call single host IP, then this sevice can redirects required based on resource URL to correpsonding service with defined routes 
 
 ```
-cloud:
+server:
+  port: 9191
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
     gateway:
       routes:
-        - id: USER-SERVICE
-          uri: lb://USER-SERVICE
+        - id: CUSTOMER-SERVICE
+          uri: lb://CUSTOMER-SERVICE
           predicates:
-            - Path=/users/**
+            - Path=/customers/**
           filters:
             - name: CircuitBreaker
               args:
-                name: USER-SERVICE
-                fallbackuri: forward:/userServiceFallback
-        - id: DEPARTMENT-SERVICE
-          uri: lb://DEPARTMENT-SERVICE
+                name: CUSTOMER-SERVICE
+                fallbackuri: forward:/customerServiceFallback
+
+        - id: PRODUCT-SERVICE
+          uri: lb://PRODUCT-SERVICE
           predicates:
-            - Path=/departments/**
+            - Path=/products/**
           filters:
             - name: CircuitBreaker
               args:
-                name: DEPARTMENT-SERVICE
-                fallbackuri: forward:/departmentServiceFallback
+                name: PRODUCT-SERVICE
+                fallbackuri: forward:/productServiceFallback
+
+        - id: ORDER-SERVICE
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/orders/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: ORDER-SERVICE
+                fallbackuri: forward:/orderServiceFallback
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 4000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
 
 ```
 
-#### Department Service
+
+### Product Service:
+
+To Save product
 ```
-curl --location --request POST 'http://localhost:9191/departments/' \
+curl --location --request POST 'http://localhost:9191/products/' \
 --header 'Content-Type: application/json' \
---data-raw '{
-    "departmentName": "CSE",
-    "departmentAddress": "Hyderabad",
-    "departmentCode": "CSE_01"
+--data-raw '{ 
+ "productName": "Mobile",
+ "productAddress": "Narsapur",
+ "productCode": "MOB_101",
+ "price": 34000,
+ "category": "MOBILES"
 }'
 ```
+
+To get product
 ```
-curl --location --request GET 'http://localhost:9191/departments/1'
+curl --location --request GET 'http://localhost:9191/products/1'
 ```
 
 
-#### User Service: 
+### Customer Service:
 
+To save customer
 ```
- curl --location --request POST 'http://localhost:9191/users/' \
+ curl --location --request POST 'http://localhost:9191/customers/' \
  --header 'Content-Type: application/json' \
 --data-raw '{
     "firstName": "Ramu",
     "lastName": "Evana",
-    "email": "ramu.evana@gmail.com",
-    "departmentId": "1"
+    "email": "ramu.evana@gmail.com"
 }'
 ```
 
+To get customer
 ```
-curl --location --request GET 'http://localhost:9191/users/1'
+curl --location --request GET 'http://localhost:9191/customers/1'
+```
+
+### Order Service:
+
+Get save order
+```
+ curl --location --request POST 'http://localhost:9191/orders/' \
+ --header 'Content-Type: application/json' \
+--data-raw '{
+    "customerId": "1",
+    "productId": "1",
+    "location": "Hyderabad"
+}'
+```
+
+To get order
+```
+curl --location --request GET 'http://localhost:9191/orders/1'
 ```
 
 
