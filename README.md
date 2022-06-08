@@ -120,6 +120,20 @@ URL: http://localhost:9295/hystrix
  
 This service is basically used to make all common properties or configuration info to once place and maintain in any repository and make it secure with OAuth enabled authentication, now a days it is pretty similar to vault/secret manager service in cloud.
 
+```
+server:
+  port: 9296
+spring:
+  application:
+    name: CONFIG-SERVER
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/dcs-admin/config-server
+          clone-on-start: true
+```
+
 <img width="1680" alt="image" src="https://user-images.githubusercontent.com/23380019/172652106-1a472d28-1a84-4e04-bf00-cde34bc54321.png">
 
 
@@ -231,7 +245,7 @@ management:
 
 ```
 
-![Uploading image.png…]()
+<img width="1487" alt="image" src="https://user-images.githubusercontent.com/23380019/172653268-2dc19741-5cd8-4cac-b28f-2756b3ca63e6.png">
 
 
 ### Product Service:
@@ -290,6 +304,15 @@ To get order
 ```
 curl --location --request GET 'http://localhost:9191/orders/1'
 ```
+
+The response would be like this
+```JSON
+{"order":{"orderId":1,"customerId":1,"productId":1,"orderDate":"2022-05-31T10:54:30.833+00:00","location":"Hyderabad","expectedDelivery":"1970-01-01T00:00:00.006+00:00","rating":0},
+"product":{"productId":1,"productName":"Mobile","productAddress":"Narsapur","productCode":"MOB_101","price":34000,"category":"MOBILES"},
+"customer":{"customerId":1,"firstName":"Ramu","lastName":"Evana","email":"ramu.evana@gmail.com"},"responseCode":200,"responseMessage":null}
+```
+
+![Uploading image.png…]()
 
 
 ## Hystrix Dashboard to see the health of the services
