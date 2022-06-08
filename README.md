@@ -1,5 +1,4 @@
-# Microservices 
-###### An Anji Evana self prepared document
+# Microservices  
  
 A sample microservice app consists of basic flow from end to end
 
