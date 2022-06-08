@@ -104,7 +104,6 @@ URL: http://localhost:8761/
 
 <img width="1481" alt="image" src="https://user-images.githubusercontent.com/23380019/172652346-c90da678-b58b-4fdc-8dc4-17d9991d1085.png">
 
-<img width="1675" alt="image" src="https://user-images.githubusercontent.com/23380019/172650135-dbc58a20-ffb5-4ffb-8a18-f0bd725fc39b.png">
 
 
 #### HystrixDashboard
@@ -176,16 +175,14 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     hostname: localhost
-```
+``` 
 
-<img width="1435" alt="image" src="https://user-images.githubusercontent.com/23380019/171010867-31d94a95-c99a-4a9a-ad47-b2dd86c238bf.png">
-
-
-## Registering microservices(product, customer and order) with ServiceRegistry
+## Registering microservices(product, customer, order and other) with ServiceRegistry
 
 This service exposes one dashboard (Eureka Dashboard) to see all active registered services
 Next step is to make this servicd and up and all other services make them as Eureka clients
 
+<img width="1675" alt="image" src="https://user-images.githubusercontent.com/23380019/172650135-dbc58a20-ffb5-4ffb-8a18-f0bd725fc39b.png">
 
 
 ## API-GATEWAY Introduced:
