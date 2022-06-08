@@ -26,6 +26,8 @@ Pending: Adding OAuth2 UAA to each service will help
 Total Number of services defined here 
 
 ```
+ SERVICE-REGISTRY   - http://localhost:8761
+ 
  API-GATEWAY	       - 192.168.1.1:API-GATEWAY:9191
  CONFIG-SERVER	     - 192.168.1.1:CONFIG-SERVER:9296 
  HYSTRIX-DASHBOARD	 - 192.168.1.1:HYSTRIX-DASHBOARD:9295
@@ -54,6 +56,8 @@ curl --location --request POST 'http://localhost:9001/products/' \
 curl --location --request GET 'http://localhost:9001/products/1'
 ```
 
+<img width="1680" alt="image" src="https://user-images.githubusercontent.com/23380019/172650983-a9d235f0-3de7-42d8-8cdb-603bf8cf43f5.png">
+
 #### Customer Service:
  
 This service exposes few APIs to save customer with cust_id and get customer with customer info 
@@ -69,6 +73,8 @@ This service exposes few APIs to save customer with cust_id and get customer wit
 
 curl --location --request GET 'http://localhost:9002/customers/1'
 ```
+
+<img width="1680" alt="image" src="https://user-images.githubusercontent.com/23380019/172651338-2dd8eb64-a168-489e-b389-76e44159db67.png">
 
 #### Order Service:
  
@@ -87,11 +93,16 @@ curl --location --request POST 'http://localhost:9005/orders/' \
 curl --location --request GET 'http://localhost:9005/orders/1'
 ```
 
+<img width="1680" alt="image" src="https://user-images.githubusercontent.com/23380019/172651567-5af1b347-dfc3-49a5-9df6-b4bbeb42898d.png">
+
+
 #### ServiceRegistry (Discovery Service Design Pattern)
  
 This service is EurekaServer so that all other services can register with services, so that all other services become Eureka clients for this service, meaning every other service need @EnableEurekaClient and this defined @EnableEurekaServer
 
 URL: http://localhost:8761/
+
+<img width="1481" alt="image" src="https://user-images.githubusercontent.com/23380019/172652346-c90da678-b58b-4fdc-8dc4-17d9991d1085.png">
 
 <img width="1675" alt="image" src="https://user-images.githubusercontent.com/23380019/172650135-dbc58a20-ffb5-4ffb-8a18-f0bd725fc39b.png">
 
@@ -102,12 +113,14 @@ Generally when microservices scalling much more, when requests are spanning from
 
 URL: http://localhost:9295/hystrix
 
-<img width="1677" alt="image" src="https://user-images.githubusercontent.com/23380019/172650307-64927729-fcec-41fb-9063-15cada8922ef.png">
+<img width="1680" alt="image" src="https://user-images.githubusercontent.com/23380019/172651924-afdc495a-67d2-4360-a918-3121dd4c7ae0.png">
 
 
 #### ConfigServerCloud
  
 This service is basically used to make all common properties or configuration info to once place and maintain in any repository and make it secure with OAuth enabled authentication, now a days it is pretty similar to vault/secret manager service in cloud.
+
+<img width="1680" alt="image" src="https://user-images.githubusercontent.com/23380019/172652106-1a472d28-1a84-4e04-bf00-cde34bc54321.png">
 
 
 ### How can I try this in my local
