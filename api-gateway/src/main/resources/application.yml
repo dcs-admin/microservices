@@ -6,24 +6,35 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: USER-SERVICE
-          uri: lb://USER-SERVICE
+        - id: CUSTOMER-SERVICE
+          uri: lb://CUSTOMER-SERVICE
           predicates:
-            - Path=/users/**
+            - Path=/customers/**
           filters:
             - name: CircuitBreaker
               args:
-                name: USER-SERVICE
-                fallbackuri: forward:/userServiceFallback
-        - id: DEPARTMENT-SERVICE
-          uri: lb://DEPARTMENT-SERVICE
+                name: CUSTOMER-SERVICE
+                fallbackuri: forward:/customerServiceFallback
+
+        - id: PRODUCT-SERVICE
+          uri: lb://PRODUCT-SERVICE
           predicates:
-            - Path=/departments/**
+            - Path=/products/**
           filters:
             - name: CircuitBreaker
               args:
-                name: DEPARTMENT-SERVICE
-                fallbackuri: forward:/departmentServiceFallback
+                name: PRODUCT-SERVICE
+                fallbackuri: forward:/productServiceFallback
+
+        - id: ORDER-SERVICE
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/orders/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: ORDER-SERVICE
+                fallbackuri: forward:/orderServiceFallback
 hystrix:
   command:
     fallbackcmd:

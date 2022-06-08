@@ -19,54 +19,71 @@ eureka:
 
 
 
-Department Service:
+Product Service:
 ==================
 
-curl --location --request POST 'http://localhost:9001/departments/' \
+curl --location --request POST 'http://localhost:9001/products/' \
 --header 'Content-Type: application/json' \
---data-raw '{
-    "departmentName": "CSE",
-    "departmentAddress": "Hyderabad",
-    "departmentCode": "CSE_01"
+--data-raw '{ 
+ "productName": "Mobile",
+ "productAddress": "Narsapur",
+ "productCode": "MOB_101",
+ "price": 34000,
+ "category": "MOBILES"
 }'
 
 
-curl --location --request GET 'http://localhost:9001/departments/1'
+curl --location --request GET 'http://localhost:9001/products/1'
 
 
 
-User Service:
+Customer Service:
 ============
 
- curl --location --request POST 'http://localhost:9002/users/' \
+ curl --location --request POST 'http://localhost:9002/customers/' \
  --header 'Content-Type: application/json' \
 --data-raw '{
     "firstName": "Ramu",
     "lastName": "Evana",
-    "email": "ramu.evana@gmail.com",
-    "departmentId": "1"
+    "email": "ramu.evana@gmail.com"
 }'
 
 
-curl --location --request GET 'http://localhost:9002/users/1'
+curl --location --request GET 'http://localhost:9002/customers/1'
 
 
+Order Service:
+==
+
+ curl --location --request POST 'http://localhost:9005/orders/' \
+ --header 'Content-Type: application/json' \
+--data-raw '{
+    "customerId": "1",
+    "productId": "1",
+    "location": "Hyderabad"
+}'
+
+
+curl --location --request GET 'http://localhost:9005/orders/1'
 
 
 API-GATEWAY Introduced:-9191
 =====
 
 
-Department Service:
+Product Service:
 ==================
 
-curl --location --request POST 'http://localhost:9191/departments/' \
+curl --location --request POST 'http://localhost:9191/products/' \
 --header 'Content-Type: application/json' \
---data-raw '{
-    "departmentName": "CSE",
-    "departmentAddress": "Hyderabad",
-    "departmentCode": "CSE_01"
+--data-raw '{ 
+ "productName": "Mobile",
+ "productAddress": "Narsapur",
+ "productCode": "MOB_101",
+ "price": 34000,
+ "category": "MOBILES"
 }'
+
 
 
 curl --location --request GET 'http://localhost:9191/departments/1'
@@ -76,7 +93,7 @@ curl --location --request GET 'http://localhost:9191/departments/1'
 User Service:
 ============
 
- curl --location --request POST 'http://localhost:9191/users/' \
+ curl --location --request POST 'http://localhost:9191/customers/' \
  --header 'Content-Type: application/json' \
 --data-raw '{
     "firstName": "Ramu",
@@ -86,7 +103,7 @@ User Service:
 }'
 
 
-curl --location --request GET 'http://localhost:9191/users/1'
+curl --location --request GET 'http://localhost:9191/customers/1'
 
 
 

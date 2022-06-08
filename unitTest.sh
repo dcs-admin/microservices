@@ -1,35 +1,48 @@
 
 for i in `seq 1 2`; do  
-    echo "Save Department"
-    curl --location --request POST 'http://localhost:9191/departments/' \
-    --header 'Content-Type: application/json' \
-    --data-raw '{
-        "departmentName": "CSE",
-        "departmentAddress": "Hyderabad",
-        "departmentCode": "CSE_01"
-    }'
-    echo "\n        SUCCESS"
+    
+ 
+
+curl --location --request POST 'http://localhost:9001/products/' \
+--header 'Content-Type: application/json' \
+--data-raw '{ 
+ "productName": "Mobile",
+ "productAddress": "Narsapur",
+ "productCode": "MOB_101",
+ "price": 34000,
+ "category": "MOBILES"
+}'
 
 
-    echo "GET Department"
-    curl --location --request GET 'http://localhost:9191/departments/'${i}
+curl --location --request GET 'http://localhost:9001/products/1'
+
+ 
+
+ curl --location --request POST 'http://localhost:9002/customers/' \
+ --header 'Content-Type: application/json' \
+--data-raw '{
+    "firstName": "Ramu",
+    "lastName": "Evana",
+    "email": "ramu.evana@gmail.com"
+}'
 
 
-    echo "Save User " 
-    curl --location --request POST 'http://localhost:9191/users/' \
-    --header 'Content-Type: application/json' \
-    --data-raw '{
-        "firstName": "Ramu",
-        "lastName": "Evana",
-        "email": "ramu.evana@gmail.com",
-        "departmentId": "${i}"
-    }'
+curl --location --request GET 'http://localhost:9002/customers/1'
 
-    echo "\n       SUCCESS"
+ 
+
+ curl --location --request POST 'http://localhost:9005/orders/' \
+ --header 'Content-Type: application/json' \
+--data-raw '{
+    "customerId": "1",
+    "productId": "1",
+    "location": "Hyderabad"
+}'
 
 
-    echo "GET USER with calling of other service Department"
-    curl --location --request GET 'http://localhost:9191/users/'${i}
+curl --location --request GET 'http://localhost:9005/orders/1'
+
+
 
     echo "\n        SUCCESS"
 done

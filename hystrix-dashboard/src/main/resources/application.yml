@@ -4,10 +4,6 @@ server:
 spring:
   application:
     name: HYSTRIX-DASHBOARD
-  cloud:
-    compatibility-verifier:
-      enabled: false
-
 hystrix:
   dashboard:
     proxy-stream-allow-list: "*"

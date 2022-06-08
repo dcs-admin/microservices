@@ -9,7 +9,6 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 @SpringBootApplication
 @EnableEurekaClient
 @EnableHystrix
-@EnableCircuitBreaker
 public class ApiGatewayApplication {
 
 	public static void main(String[] args) {

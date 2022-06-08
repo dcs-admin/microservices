@@ -1,5 +1,7 @@
 spring:
   cloud:
+    compatibility-verifier:
+      enabled: false
     config:
       enabled: true
       uri: http://localhost:9296
