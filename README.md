@@ -185,7 +185,7 @@ Here is the URL
 
 ## Why API-GATEWAY 
 
-With all above individual microservices, every service haev thier own endpoints and exposed to public.
+With all above individual microservices, every service have thier own endpoints and exposed to public.
 
 ##### Drawback:
 There is security vulnerability due to public port exposing and maintaining all service specific endpoints are really hectic to the customers. 
@@ -307,10 +307,35 @@ curl --location --request GET 'http://localhost:9191/orders/1'
 ```
 
 The response would be like this
-```JSON
-{"order":{"orderId":1,"customerId":1,"productId":1,"orderDate":"2022-05-31T10:54:30.833+00:00","location":"Hyderabad","expectedDelivery":"1970-01-01T00:00:00.006+00:00","rating":0},
-"product":{"productId":1,"productName":"Mobile","productAddress":"Narsapur","productCode":"MOB_101","price":34000,"category":"MOBILES"},
-"customer":{"customerId":1,"firstName":"Ramu","lastName":"Evana","email":"ramu.evana@gmail.com"},"responseCode":200,"responseMessage":null}
+
+```
+{
+   "order":{
+      "orderId":1,
+      "customerId":1,
+      "productId":1,
+      "orderDate":"2022-05-31T10:54:30.833+00:00",
+      "location":"Hyderabad",
+      "expectedDelivery":"1970-01-01T00:00:00.006+00:00",
+      "rating":0
+   },
+   "product":{
+      "productId":1,
+      "productName":"Mobile",
+      "productAddress":"Narsapur",
+      "productCode":"MOB_101",
+      "price":34000,
+      "category":"MOBILES"
+   },
+   "customer":{
+      "customerId":1,
+      "firstName":"Ramu",
+      "lastName":"Evana",
+      "email":"ramu.evana@gmail.com"
+   },
+   "responseCode":200,
+   "responseMessage":null
+}
 ```
 
 <img width="1488" alt="image" src="https://user-images.githubusercontent.com/23380019/172653699-deabe167-256f-43d3-9473-0e5dced738dc.png">
