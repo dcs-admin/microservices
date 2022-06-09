@@ -132,6 +132,19 @@ spring:
 <img width="1680" alt="image" src="https://user-images.githubusercontent.com/23380019/172652106-1a472d28-1a84-4e04-bf00-cde34bc54321.png">
 
 
+If you see the cloud config server on mentioned above git repo, the config look like this
+
+```
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+``` 
+
 ### How can I try this in my local
 
 - Clone the project
@@ -158,25 +171,10 @@ http://localhost:9295/hystrix/monitor  --> Hystrix Dashboard: Add above URL here
 
 ```
 
-### Eureka Configuration 
+## Monitor registered microservices(product, customer, order and others) with ServiceRegistry(Eureka Dashboard)
 
-General config
-
-```
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    hostname: localhost
-``` 
-
-## Registering microservices(product, customer, order and other) with ServiceRegistry
-
-This service exposes one dashboard (Eureka Dashboard) to see all active registered services
-Next step is to make this servicd and up and all other services make them as Eureka clients
+This service exposes Eureka Dashboard to see all active registered services
+Next step is to make this service and up and all other services make them as Eureka clients
 
 Here is the URL 
  http://localhost:8761/
@@ -184,9 +182,15 @@ Here is the URL
 
 <img width="1481" alt="image" src="https://user-images.githubusercontent.com/23380019/172652346-c90da678-b58b-4fdc-8dc4-17d9991d1085.png">
 
-## API-GATEWAY Introduced:
 
-With API gateway we can directly call single host IP, then this sevice can redirects required based on resource URL to correpsonding service with defined routes 
+## Why API-GATEWAY 
+
+With all above individual microservices, every service haev thier own endpoints and exposed to public.
+
+##### Drawback:
+There is security vulnerability due to public port exposing and maintaining all service specific endpoints are really hectic to the customers. 
+
+With API gateway we can directly call single host IP/domain name, then this sevice can redirects HTTP requests based on resource URL to correpsonding service with defined routes. See following yaml that describes the routing mechanism.
 
 ```
 server:
@@ -244,7 +248,9 @@ management:
 <img width="1487" alt="image" src="https://user-images.githubusercontent.com/23380019/172653268-2dc19741-5cd8-4cac-b28f-2756b3ca63e6.png">
 
 
-### Product Service:
+After adding API Gateway service, then calling endpoints with single IP(http://localhost:9191) for all services which are registered with service-registry as EurekaClients as follows.
+
+#### Product Service:
 
 To Save product
 ```
@@ -264,8 +270,7 @@ To get product
 curl --location --request GET 'http://localhost:9191/products/1'
 ```
 
-
-### Customer Service:
+#### Customer Service:
 
 To save customer
 ```
@@ -283,7 +288,7 @@ To get customer
 curl --location --request GET 'http://localhost:9191/customers/1'
 ```
 
-### Order Service:
+#### Order Service:
 
 Get save order
 ```
@@ -307,6 +312,7 @@ The response would be like this
 "product":{"productId":1,"productName":"Mobile","productAddress":"Narsapur","productCode":"MOB_101","price":34000,"category":"MOBILES"},
 "customer":{"customerId":1,"firstName":"Ramu","lastName":"Evana","email":"ramu.evana@gmail.com"},"responseCode":200,"responseMessage":null}
 ```
+
 <img width="1488" alt="image" src="https://user-images.githubusercontent.com/23380019/172653699-deabe167-256f-43d3-9473-0e5dced738dc.png">
 
 
@@ -327,7 +333,7 @@ http://localhost:9191/actuator/hystrix.stream
 
 
 
-## Zupkin Server : for distributed tracing 
+## Zupkin Server : For distributed tracing 
 
 For both user and dept services add following properties will push the logs to distributed ZipKin server
 
