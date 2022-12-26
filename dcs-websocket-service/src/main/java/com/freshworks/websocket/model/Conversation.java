@@ -1,5 +1,8 @@
 package com.freshworks.websocket.model;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Entity;
 
 import lombok.AllArgsConstructor;
@@ -9,16 +12,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HelloMessage {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private Long userNumber;
-    private String name;
+public class Conversation {
+ 
+    UserContact userContact;
+    List<UserMessage> messages;
+    
 }

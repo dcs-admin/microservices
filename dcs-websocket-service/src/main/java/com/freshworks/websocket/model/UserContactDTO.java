@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Greeting {
-
-    private String message;
+public class UserContactDTO {
+ 
+    private Long currentUserId = 0l;
+    private User userContact = new User();
+    
 }

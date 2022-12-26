@@ -1,9 +1,15 @@
 <div id="background_header"></div>
 <div id="background_body"></div>
 
-<div id="chatContainer">
+ <img class="logo" src="../assets/images/whatsapp_icon.png" />
+<app-login (loginClicked)="loginClicked($event)" *ngIf="currentUser.firstName == ''"></app-login>
+
+
+<div id="chatContainer" *ngIf="currentUser.firstName  != ''">
   <app-sidebar
     (conversationClicked)="onConversationSelected($event)"
+    [currentUser]="currentUser"
+    (logoutClicked)="logoutClicked($event)"
   ></app-sidebar>
   <div id="chat">
     <div id="chatPlaceholder" *ngIf="!conversation">
@@ -18,7 +24,7 @@
       <p>WhatsApp is available for Mac. <a href="#">Get it here</a></p>
     </div>
 
-    <app-chat [conversation]="conversation" *ngIf="conversation"></app-chat>
+    <app-chat  [currentUser]="currentUser" [conversation]="conversation" *ngIf="conversation"></app-chat>
   </div>
 </div>
 

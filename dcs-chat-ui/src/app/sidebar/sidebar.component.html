@@ -2,12 +2,12 @@
   <div id="row1">
     <div id="sidebarHeader">
       <div class="avatarContainer">
-        <img src="../../assets/images/noPic.svg" />
+        <img src="../../assets/images/noPic.svg" title="{{currentUser.firstName}}" />
       </div>
       <div class="actionsContainer">
         <img src="../../assets/images/statusIcon.svg" />
-        <img src="../../assets/images/chatIcon.svg" />
-        <img src="../../assets/images/moreVertIcon.svg" />
+        <img title="Logout" class="icon" src="../../assets/images/logout.png" (click)="logout()"/>
+        <img  class="icon" src="../../assets/images/moreVertIcon.svg" />
       </div>
     </div>
     <div id="searchBox">
@@ -35,7 +35,7 @@
       </div>
       <div class="content">
         <div class="conversationHeader">
-          <div class="name">{{ conversation.name }}</div>
+          <div class="name">{{ conversation.userContact.firstName }} {{ conversation.userContact.lastName }}</div>
           <div class="time">{{ conversation.time }}</div>
           <div *ngIf="conversation && conversation.unread != undefined && conversation.unread > 0" class="unread">{{ conversation.unread }}</div>
         </div>
@@ -52,5 +52,14 @@
         </div>
       </div>
     </div>
+
+    <div class="add-contact" (click)="open(mymodal)"> Add Contact</div>
   </div>
+
+
+  <ng-template #mymodal let-modal>
+    <app-popup-modal [currentUser]="currentUser" [modal]="modal"></app-popup-modal>
+  </ng-template>
+
+
 </div>

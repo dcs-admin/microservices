@@ -1,0 +1,49 @@
+<div class="modal-popup">
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Contact</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="error">{{error}}</div>
+    <div class="form-group">
+      <label for="username">Mobile Number</label>
+      <input type="text" name="sd" [(ngModel)]="userContactDTO.userContact.userNumber" /> 
+    </div> 
+    <div class="form-group">
+      <label for="username">Email</label>
+      <input type="text" name="sd" [(ngModel)]="userContactDTO.userContact.email" /> 
+    </div>
+    <div class="form-group">
+      <label for="username">FirstName</label>
+      <input type="text" name="sd" [(ngModel)]="userContactDTO.userContact.firstName" /> 
+    </div> 
+    <div class="form-group">
+      <label for="username">Last Name</label>
+      <input type="text" name="sd" [(ngModel)]="userContactDTO.userContact.lastName" /> 
+    </div>
+    <div class="form-group">
+      <label for="username">Address</label>
+      <input type="text" name="sd" [(ngModel)]="userContactDTO.userContact.address" /> 
+    </div> <div class="form-group">
+      <label for="username">Remarks</label>
+      <input type="text" name="sd" [(ngModel)]="userContactDTO.userContact.remarks" /> 
+    </div>
+    <div class="form-group">
+      <label for="username">Role</label>
+      <input type="text" name="sd" [(ngModel)]="userContactDTO.userContact.role" /> 
+    </div> <div class="form-group">
+      <label for="username">Permission</label>
+      <input type="text" name="sd" [(ngModel)]="userContactDTO.userContact.permission" /> 
+    </div>
+
+
+
+  </div>
+  <div class="modal-footer">
+    
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+    <button  class="btn btn-primary" (click)="onAddContact()"> Add Contact </button>
+  </div>
+</div>

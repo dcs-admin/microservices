@@ -5,8 +5,8 @@
         <img src="../../assets/images/noPic.svg" />
       </div>
 
-      <div class="nameSection"> {{ conversation.name }}</div>
-      <div class="onlineSection">{{ conversation.isOnline?"online":"" }}</div>
+      <div class="nameSection"> {{ conversation.userContact.firstName }} {{ conversation.userContact.lastName }}</div>
+      <div class="onlineSection">{{ conversation.isOnline?"online":"" }} {{currentStatus?"online":"last seen "+userLoginStatus.lastLoginAt | dateAgo}}</div>
     </div>
     <div class="actionButtons">
       <img src="../../assets/images/attached.svg" />
@@ -16,7 +16,7 @@
   <div id="body">
     <div
       class="message"
-      [ngClass]="{ me: message.me }"
+      [ngClass]="{ me: message.fromUser == currentUser.userNumber  }"
       *ngFor="let message of conversation.messages"
     >
       <div class="messageContent">
