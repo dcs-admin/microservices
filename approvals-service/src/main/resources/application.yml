@@ -1,0 +1,44 @@
+server:
+  port: 9010
+spring:
+  application:
+    name: APPROVAL-SERVICE 
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+    hibernate:
+      ddl-auto : update
+  # h2:
+  #   console:
+  #     enabled: true
+  #     path: /h2
+  # datasource:
+  #   url: jdbc:h2:file:~/h2/approval-service
+  #   username: sa
+  #   password:
+  #   driverClassName: org.h2.Driver
+  datasource:
+    url: jdbc:postgresql://localhost:5432/approvals
+    username: appuser
+    password: Test@123
+    # driverClassName: org.hibernate.dialect.PostgreSQLDialect
+  zipkin:
+    url: http://127.0.0.1:9411
+  main:
+    allow-circular-references: true
+openai:
+  model: gpt-3.5-turbo
+  api:
+    url: https://api.openai.com/v1/chat/completions
+    key: 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
+minio:
+  buckek:
+    name: anji
+  default:
+    folder: / 
+  access:
+    name: minioadmin
+    secret: minioadmin
+  url: http://127.0.0.1:9000
