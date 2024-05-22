@@ -20,7 +20,7 @@ openai:
   model: gpt-3.5-turbo
   api:
     url: https://api.openai.com/v1/chat/completions
-    key: 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
+    key: *****
 minio:
   buckek:
     name: anji
