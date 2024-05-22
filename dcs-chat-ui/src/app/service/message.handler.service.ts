@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, Subject, ReplaySubject, from, of, range } from 'rxjs';
+import { environment } from "src/environments/environment";
 import { Message } from "../model/message.model";
 import {  UserContactDTO } from "../_models/usercontact";
  
@@ -8,7 +9,7 @@ import {  UserContactDTO } from "../_models/usercontact";
 @Injectable({ providedIn: "root" })
 export class MessageHandlerService {
 
-    url: string ='http://localhost:8080';
+    url: string = environment.server_url;
    
 
     constructor(private http: HttpClient) { }

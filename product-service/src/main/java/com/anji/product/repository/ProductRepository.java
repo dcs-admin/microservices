@@ -1,6 +1,6 @@
-package com.anji.product.repository;
+package com.anji.approvals.repository;
 
-import com.anji.product.entity.Product;
+import com.anji.approvals.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

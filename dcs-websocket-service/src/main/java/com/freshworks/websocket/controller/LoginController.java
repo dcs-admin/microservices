@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/websocket")
 public class LoginController { 
      
     @Autowired 

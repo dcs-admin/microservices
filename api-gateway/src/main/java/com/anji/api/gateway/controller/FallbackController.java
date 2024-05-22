@@ -1,7 +1,7 @@
 package com.anji.api.gateway.controller;
-
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+
 
 public class FallbackController {
 
@@ -19,5 +19,10 @@ public class FallbackController {
     @GetMapping("/orderServiceFallback")
     public String orderServicefallback(){
         return "ORDER-SERVICE is not responding ontime, please try again later";
+    }
+
+    @GetMapping("/websocketServiceFallback")
+    public String websocketServicefallback(){
+        return "WEBSOCKET-SERVICE is not responding ontime, please try again later";
     }
 }

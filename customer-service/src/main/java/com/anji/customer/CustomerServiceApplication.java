@@ -1,5 +1,6 @@
 package com.anji.customer;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -18,7 +19,14 @@ public class CustomerServiceApplication {
 
 	@Bean
 	@LoadBalanced
+	@Qualifier("restTemplate")
 	public RestTemplate loadRestTemplate(){
+		return new RestTemplate();
+	}
+
+	@Bean
+	@Qualifier("externalRestTemplate")
+	public RestTemplate loadExternalRestTemplate(){
 		return new RestTemplate();
 	}
 

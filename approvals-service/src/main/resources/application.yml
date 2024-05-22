@@ -1,6 +1,8 @@
 server:
   port: 9010
 spring:
+  kafka:
+    bootstrap-servers: localhost:9092
   application:
     name: APPROVAL-SERVICE 
   jpa:

@@ -16,11 +16,10 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @CrossOrigin
 public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
 
-   
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/stomp-endpoint")
+        registry.addEndpoint("/websocket/stomp-endpoint")
         .setAllowedOriginPatterns("*") 
         .setHandshakeHandler(new UserHandler())
                 .withSockJS();

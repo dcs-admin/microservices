@@ -1,9 +1,10 @@
-package com.anji.product.controller;
+package com.anji.approvals.controller;
 
-import com.anji.product.entity.Product;
-import com.anji.product.repository.ProductRepository;
+import com.anji.approvals.entity.Product;
+import com.anji.approvals.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -25,14 +26,15 @@ public class ProductController {
 
 
     @GetMapping("/{productId}")
-    public Product findProductId(@PathVariable long productId) throws Exception {
-        log.info("Get:findProductId:"+productId);
-        Optional<Product> optional =  this.productRepository.findById(productId);
-        if(optional.isPresent()){
-            return optional.get();
-        }else{
-            throw new Exception("Unable to find with Id:"+productId);
+    public ResponseEntity<Product> findProductId(@PathVariable long productId) {
+        log.info("Get:findProductId:" + productId);
+        Optional<Product> optional = this.productRepository.findById(productId);
+        if (optional.isPresent()) {
+            return ResponseEntity.ok(optional.get());
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
+    
 
 }

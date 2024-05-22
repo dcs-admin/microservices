@@ -4,6 +4,7 @@ import com.anji.customer.entity.Customer;
 import com.anji.customer.repository.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -12,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 public class CustomerService {
 
     @Autowired
+    @Qualifier("restTemplate")
     private RestTemplate restTemplate;
 
     @Autowired

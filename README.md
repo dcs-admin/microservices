@@ -158,7 +158,7 @@ git clone git@github.com:dcs-admin/microservices.git
 ```
 mvn clean install
 mvn package
-mvn springboot:run
+mvn spring-boot:run
 ```
 
 - Open following Dashboards to see the services up or not
