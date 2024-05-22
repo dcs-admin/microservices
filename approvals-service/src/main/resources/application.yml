@@ -30,11 +30,7 @@ spring:
     url: http://127.0.0.1:9411
   main:
     allow-circular-references: true
-# openai:
-#   model: *****
-#   api:
-#     url: https://api.openai.com/v1/chat/completions
-#     key: ********
+
 minio:
   buckek:
     name: anji
