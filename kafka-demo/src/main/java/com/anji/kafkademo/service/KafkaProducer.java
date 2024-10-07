@@ -4,6 +4,8 @@ package com.anji.kafkademo.service;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import com.anji.kafkademo.model.Customer;
+
 @Service
 public class KafkaProducer {
 

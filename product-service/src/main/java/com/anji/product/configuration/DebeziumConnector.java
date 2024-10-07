@@ -1,4 +1,4 @@
-package com.anji.approvals.configuration;
+package com.anji.product.configuration;
 
 import io.debezium.embedded.EmbeddedEngine;
 import io.debezium.embedded.EmbeddedEngine.CompletionCallback;

@@ -1,4 +1,4 @@
-package com.anji.approvals.controller;
+package com.anji.product.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.anji.approvals.entity.ChatRequest;
-import com.anji.approvals.entity.ChatResponse;
+import com.anji.product.entity.ChatRequest;
+import com.anji.product.entity.ChatResponse;
 
 @RestController
 public class ChatController {

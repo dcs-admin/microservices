@@ -3,13 +3,15 @@ cd service-registry && mvn spring-boot:run
 
 cd api-gateway && mvn spring-boot:run 
 
+cd cloud-config-server && mvn spring-boot:run 
+
 cd product-service && mvn spring-boot:run 
 
 cd customer-service && mvn spring-boot:run 
 
 cd order-service && mvn spring-boot:run 
 
-cd cloud-config-server && mvn spring-boot:run 
+
 
 cd hystrix-dashboard && mvn spring-boot:run 
 

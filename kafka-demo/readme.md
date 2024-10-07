@@ -3,6 +3,10 @@ https://hevodata.com/learn/install-kafka-on-mac/ ==> https://kafka.apache.org/do
 
 tar -xzf kafka_2.13-3.0.0.tgz 
 
+Current Directory:
+
+/Users/vevana/kafka/kafka_2.13-3.7.0
+
 Zookeeper:
 ./bin/zookeeper-server-start.sh config/zookeeper.properties
 

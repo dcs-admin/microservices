@@ -1,4 +1,4 @@
-package com.anji.approvals.entity;
+package com.anji.product.entity;
 
 import java.util.List;
 

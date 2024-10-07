@@ -1,7 +1,7 @@
-package com.anji.approvals.controller;
+package com.anji.product.controller;
 
-import com.anji.approvals.entity.Product;
-import com.anji.approvals.repository.ProductRepository;
+import com.anji.product.entity.Product;
+import com.anji.product.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

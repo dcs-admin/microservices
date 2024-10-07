@@ -1,6 +1,6 @@
-package com.anji.approvals.service;
+package com.anji.product.service;
 
-import com.anji.approvals.repository.ProductRepository;
+import com.anji.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

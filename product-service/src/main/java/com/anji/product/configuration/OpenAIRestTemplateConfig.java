@@ -1,4 +1,4 @@
-package com.anji.approvals.configuration;
+package com.anji.product.configuration;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class OpenAIRestTemplateConfig {
 
-    @Value("${openai.api.key}")
+    // @Value("${openai.api.key}")
     private String openaiApiKey;
 
     @Bean

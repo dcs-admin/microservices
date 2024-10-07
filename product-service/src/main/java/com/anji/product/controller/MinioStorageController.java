@@ -1,7 +1,7 @@
-package com.anji.approvals.controller;
+package com.anji.product.controller;
 
  
-import com.anji.approvals.service.MinioService;
+import com.anji.product.service.MinioService;
 //import io.minio.messages.Bucket;
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.core.io.ByteArrayResource;

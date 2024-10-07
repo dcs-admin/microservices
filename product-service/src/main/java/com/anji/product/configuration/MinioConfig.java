@@ -1,4 +1,4 @@
-package com.anji.approvals.configuration;
+package com.anji.product.configuration;
 
 // import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Value;
