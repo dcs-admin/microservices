@@ -36,6 +36,29 @@ Total Number of services defined here
  ORDER-SERVICE	    - 192.168.1.1:ORDER-SERVICE:9005
 ```
 
+
+##### How can I start these services
+
+```
+cd service-registry && mvn spring-boot:run 
+
+cd api-gateway && mvn spring-boot:run 
+
+cd cloud-config-server && mvn spring-boot:run 
+
+cd product-service && mvn spring-boot:run 
+
+cd customer-service && mvn spring-boot:run 
+
+cd order-service && mvn spring-boot:run 
+
+cd kafka-demo
+
+cd hystrix-dashboard && mvn spring-boot:run 
+```
+
+
+
 #### Product Service:
  
 This service exposes few APIs to save products and get product with ID
@@ -158,7 +181,7 @@ git clone git@github.com:dcs-admin/microservices.git
 ```
 mvn clean install
 mvn package
-mvn springboot:run
+mvn spring-boot:run
 ```
 
 - Open following Dashboards to see the services up or not
@@ -385,5 +408,72 @@ java -jar zipkin.jar
 <img width="1479" alt="image" src="https://user-images.githubusercontent.com/23380019/172655080-1c87df83-a95c-4ae5-a1b1-b7aa63a3f23f.png">
 
 
+#### kafka-demo
 
+Install Kafka
+https://hevodata.com/learn/install-kafka-on-mac/ ==> https://kafka.apache.org/downloads
+
+tar -xzf kafka_2.13-3.0.0.tgz 
+
+Current Directory:
+/Users/vevana/kafka/kafka_2.13-3.7.0
+
+Zookeeper:
+./bin/zookeeper-server-start.sh config/zookeeper.properties
+
+
+Kafka server:
+./bin/kafka-server-start.sh config/server.properties
+
+Create a topic:
+./bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic my-topic
+
+List Topics
+./bin/kafka-topics.sh --list --bootstrap-server localhost:9092
+
+Producer:
+./bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic my-topic
+
+Consumer:
+./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic my-topic --from-beginning
+
+
+Window1:
+
+CURL
+```
+curl --location 'http://localhost:8080/push/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "customerId": 11,
+    "firstName": "Revi",
+    "lastName": "Hyderabad",
+    "email": "revi.e@hotmail.com"
+}'
+```
+
+Window2
+
+```
+
+2024-10-09T16:32:27.262+05:30  INFO 46474 --- [kafka-demo] [at-thread | foo] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-foo-1, groupId=foo] Group coordinator 10.13.4.33:9092 (id: 2147483647 rack: null) is unavailable or invalid due to cause: session timed out without receiving a heartbeat response. isDisconnected: false. Rediscovery will be attempted.
+2024-10-09T16:32:27.265+05:30  INFO 46474 --- [kafka-demo] [at-thread | foo] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-foo-1, groupId=foo] Requesting disconnect from last known coordinator 10.13.4.33:9092 (id: 2147483647 rack: null)
+2024-10-09T16:32:27.266+05:30  INFO 46474 --- [kafka-demo] [at-thread | foo] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-foo-1, groupId=foo] Client requested disconnect from node 2147483647
+2024-10-09T16:32:27.796+05:30  INFO 46474 --- [kafka-demo] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-foo-1, groupId=foo] Discovered group coordinator 10.13.4.33:9092 (id: 2147483647 rack: null)
+Consumed message: hellp
+customerJson: as string: {"customerId":11,"firstName":"Revi","lastName":"Hyderabad","email":"revi.e@hotmail.com"}
+Consumed message: {"customerId":11,"firstName":"Revi","lastName":"Hyderabad","email":"revi.e@hotmail.com"}
+customerJson: as string: {"customerId":11,"firstName":"Revi","lastName":"Hyderabad","email":"revi.e@hotmail.com"}
+Consumed message: {"customerId":11,"firstName":"Revi","lastName":"Hyderabad","email":"revi.e@hotmail.com"}
+customerJson: as string: {"customerId":11,"firstName":"Revi","lastName":"Hyderabad","email":"revi.e@hotmail.com"}
+Consumed message: {"customerId":11,"firstName":"Revi","lastName":"Hyderabad","email":"revi.e@hotmail.com"}
+
+```
+
+
+## gRPC Demo
+
+
+
+## Netflix Conductor Demo
 

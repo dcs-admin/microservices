@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { elementAt } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Conversation } from '../model/conversation.model';
 import { Message } from '../model/message.model';
 import { MessageHandlerService } from '../service/message.handler.service';
@@ -75,7 +76,7 @@ export class ChatComponent implements OnInit {
 
 
   listenToStatus(userNumber: number) {
-    var socket = new SockJS('http://localhost:8080/stomp-endpoint');
+    var socket = new SockJS(environment.server_url+'/stomp-endpoint');
     this.stompClient = Stomp.over(socket);
     console.log('Listening on UserNumber: '+userNumber)
     this.stompClient.connect({},  () => { 

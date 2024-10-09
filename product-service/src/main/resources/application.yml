@@ -8,7 +8,7 @@ spring:
       enabled: true
       path: /h2
     datasource:
-      url: jdbc:h2:file:~/product-service
+      url: jdbc:h2:file:~/h2/product-service;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
       username: sa
       password:
       driverClassName: org.h2.Driver
@@ -16,3 +16,18 @@ spring:
     url: http://127.0.0.1:9411
   main:
     allow-circular-references: true
+
+minio:
+  buckek:
+    name: anji
+  default:
+    folder: / 
+  access:
+    name: minioadmin
+    secret: minioadmin
+  url: http://127.0.0.1:9000
+
+openai:
+  model: 
+  api:
+    url: 

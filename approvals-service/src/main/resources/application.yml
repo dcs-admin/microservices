@@ -1,0 +1,42 @@
+server:
+  port: 9010
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+  application:
+    name: APPROVAL-SERVICE 
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+    hibernate:
+      ddl-auto : update
+  # h2:
+  #   console:
+  #     enabled: true
+  #     path: /h2
+  # datasource:
+  #   url: jdbc:h2:file:~/h2/approval-service
+  #   username: sa
+  #   password:
+  #   driverClassName: org.h2.Driver
+  datasource:
+    url: jdbc:postgresql://localhost:5432/approvals
+    username: appuser
+    password: Test@123
+    # driverClassName: org.hibernate.dialect.PostgreSQLDialect
+  zipkin:
+    url: http://127.0.0.1:9411
+  main:
+    allow-circular-references: true
+
+minio:
+  buckek:
+    name: anji
+  default:
+    folder: / 
+  access:
+    name: minioadmin
+    secret: minioadmin
+  url: http://127.0.0.1:9000

@@ -4,7 +4,14 @@ spring:
   application:
     name: API-GATEWAY
   cloud:
-    gateway:
+    gateway: 
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns: "*, *" 
+            allowCredentials: true
+            allowedMethods: "*"
+            allowedHeaders: "*" 
       routes:
         - id: CUSTOMER-SERVICE
           uri: lb://CUSTOMER-SERVICE
@@ -35,6 +42,17 @@ spring:
               args:
                 name: ORDER-SERVICE
                 fallbackuri: forward:/orderServiceFallback
+
+        - id: DCS-WEBSOCKET-SERVICE
+          uri: lb://DCS-WEBSOCKET-SERVICE
+          predicates:
+            - Path=/websocket/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: DCS-WEBSOCKET-SERVICE
+                fallbackuri: forward:/websocketServiceFallback
+                
 hystrix:
   command:
     fallbackcmd:

@@ -3,13 +3,16 @@ cd service-registry && mvn spring-boot:run
 
 cd api-gateway && mvn spring-boot:run 
 
+
+cd cloud-config-server && mvn spring-boot:run 
+
+
 cd product-service && mvn spring-boot:run 
 
 cd customer-service && mvn spring-boot:run 
 
 cd order-service && mvn spring-boot:run 
 
-cd cloud-config-server && mvn spring-boot:run 
 
 cd hystrix-dashboard && mvn spring-boot:run 
 
@@ -23,3 +26,4 @@ cd hystrix-dashboard && mvn spring-boot:run
 # PRODUCT-SERVICE	  - 192.168.1.1:PRODUCT-SERVICE:9001
 # CUSTOMER-SERVICE	 - 192.168.1.1:CUSTOMER-SERVICE:9002
 # ORDER-SERVICE	    - 192.168.1.1:ORDER-SERVICE:9005
+

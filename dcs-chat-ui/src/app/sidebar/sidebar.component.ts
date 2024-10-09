@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { environment } from 'src/environments/environment';
 import { Conversation } from '../model/conversation.model';
 import { MessageHandlerService } from '../service/message.handler.service';
 import { UserContactDTO } from '../_models/usercontact';
@@ -62,7 +63,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   listenToMessages() {
-    var socket = new SockJS('http://localhost:8080/stomp-endpoint');
+    var socket = new SockJS(environment.server_url+'/stomp-endpoint');
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({},  () => {
       console.log('Here me: messages ')
