@@ -3,6 +3,7 @@ package com.anji.kafkademo.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 // @Table(name = "userr")
 public class Customer {
  
@@ -17,4 +19,5 @@ public class Customer {
     private String firstName;
     private String lastName;
     private String email;
+
 }

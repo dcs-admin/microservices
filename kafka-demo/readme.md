@@ -29,4 +29,18 @@ Consumer:
 
 
 
+RUN from SpringBoot App
+--
+cd kafka-demo && mvn spring-boot:run 
 
+Run
+```
+curl --location 'http://localhost:8080/push/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "customerId": 11,
+    "firstName": "Revi",
+    "lastName": "Hyderabad",
+    "email": "revi.e@hotmail.com"
+}'
+```
