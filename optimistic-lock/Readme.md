@@ -1,5 +1,9 @@
-@Version atttribute 
 
+## Motivation to learn Spring Boot  JPA Optimistic Locking
+
+@Version attribute 
+
+```java
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
@@ -31,8 +35,11 @@ public class TicketBookingService {
         }
     }
 }
+```
 
 
+- The Example would be like this 
+- The BookingTickets entity has a version attribute annotated with @Version. This attribute is used to detect concurrent modifications to the entity.
 ```java
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,6 +64,7 @@ public class TicketBookingController {
 }
 ```
 
+```agsl
 Database Behavior:
 Initial State: The database contains the BookingTickets with a version column. Initially, this version will be 1.
 ticketId	busNumber	fromStation	toStation	journeyDate	version
@@ -72,3 +80,11 @@ User 2, who fetched the same ticket, tries to save their changes. The version co
 The OptimisticLockingFailureException is thrown, and User 2 is notified of the conflict, allowing them to retry or be informed that someone else has updated the ticket.
 Conclusion:
 Optimistic locking provides a way to handle concurrent data modifications in a multi-user environment without locking the resource entirely. By adding a @Version annotation to the BookingTickets entity, Spring Boot's JPA automatically checks for version conflicts when saving the entity. This is ideal for scenarios like ticket booking where multiple users might attempt to modify the same resource.
+
+```
+
+
+```curl
+curl --location --request POST 'http://localhost:9111/bookings/book?busNumber=1&fromStation=NS&toStation=SC&journeyDate=2024-12-24&ticketId=105&userId=20'
+```
+
