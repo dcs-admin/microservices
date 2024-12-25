@@ -28,7 +28,7 @@ public class BookingService {
 
         try {
             System.out.println("Ticket:"+ticketId+" booking in progress for userId: "+userId);
-            Thread.sleep(5*1000);
+            Thread.sleep(1*1000);
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -52,6 +52,7 @@ public class BookingService {
         } catch (OptimisticLockingFailureException e) {
             // Handle optimistic locking failure, for example, retry or inform the user
             System.out.println("Optimistic Locking Failure. Ticket was updated by another user.");
+            throw new IllegalArgumentException("OptimisticLockingFailure booking for the specified criteria.");
             // Optionally, you can add a retry mechanism here
         }
         return "Ticket booked successfully!";

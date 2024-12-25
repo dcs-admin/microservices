@@ -83,8 +83,13 @@ Optimistic locking provides a way to handle concurrent data modifications in a m
 
 ```
 
-
+### For Booking a Ticket
 ```curl
 curl --location --request POST 'http://localhost:9111/bookings/book?busNumber=1&fromStation=NS&toStation=SC&journeyDate=2024-12-24&ticketId=105&userId=20'
 ```
 
+### For Booking a Ticket in Parallel Testing
+
+```curl
+curl --location --request POST 'http://localhost:9111/bookingsParallel/book?busNumber=1&fromStation=NS&toStation=SC&journeyDate=2024-12-27&ticketId=96&userId=1&numberOfThreads=3'
+```

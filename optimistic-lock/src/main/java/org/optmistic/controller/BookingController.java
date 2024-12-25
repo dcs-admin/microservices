@@ -24,7 +24,7 @@ public class BookingController {
         String result = "";
         try {
              result = bookingService.bookTicket(userId, busNumber, fromStation, toStation, journeyDate, ticketId);
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok(result);
