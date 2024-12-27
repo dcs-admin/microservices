@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/public")
+@RequestMapping("/api/v1")
 public class PublicController {
 
     @GetMapping("/hello")
@@ -12,10 +12,4 @@ public class PublicController {
         return "Hello, World!";
     }
 
-    @PostMapping("/login-user")
-    public ResponseEntity<String> bookTicket(@RequestParam String userId,
-                                             @RequestParam String password) {
-
-        return ResponseEntity.ok("Thanks");
-    }
 }
