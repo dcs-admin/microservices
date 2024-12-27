@@ -146,3 +146,11 @@ curl --location 'http://localhost:9111/api/v1/hello' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTczNTMyMzkzNiwiZXhwIjoxNzM1MzU5OTM2fQ.0M0LzqOTo2LSCfjZDnX1fRC9rZFI7em9wY8xzYwFjeU' \
 --header 'Cookie: JSESSIONID=3C65349D5878D1997AD7DFE65DC2275D'
 ```
+
+
+### 3. public API Call
+
+```curl
+curl --location 'http://localhost:9111/api/public/hello' \
+--header 'Cookie: JSESSIONID=3C65349D5878D1997AD7DFE65DC2275D'
+```

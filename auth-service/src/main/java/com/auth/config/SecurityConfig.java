@@ -27,7 +27,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf(csrf -> csrf.disable()) // Disable CSRF
-                .authorizeHttpRequests(auth -> auth.antMatchers("/auth/**").permitAll().anyRequest().authenticated() // Protect all endpoints
+                .authorizeHttpRequests(auth ->
+                        auth
+                                .antMatchers("/auth/**").permitAll()
+                                .antMatchers("/api/public/**").permitAll()
+                                .anyRequest().authenticated() // Protect all endpoints
                 )
 //                .formLogin(form -> form
 //                        .permitAll() // Enable default login page
