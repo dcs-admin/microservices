@@ -1,6 +1,9 @@
 package com.auth.controller;
 
 import com.auth.model.AuthRequest;
+import com.auth.model.User;
+import com.auth.repository.UserRepository;
+import com.auth.service.CustomUserDetailsService;
 import com.auth.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,15 +13,24 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/authentication")
 public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
     private JwtUtil jwtUtil;
 
-    @PostMapping("/auth")
+    @PostMapping("/register")
+    public String addNewUser(@RequestBody User user) {
+        return customUserDetailsService.saveUser(user);
+    }
+
+    @PostMapping("/token")
     public  ResponseEntity<String> generateToken(@RequestBody AuthRequest authRequest) throws Exception {
         try {
             try {

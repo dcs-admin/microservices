@@ -6,6 +6,7 @@ import com.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.stream.Stream;
 //import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
-//@EnableEurekaClient
+@EnableEurekaClient
 public class AuthJWTApplication {
     @Autowired
     private UserRepository repository;

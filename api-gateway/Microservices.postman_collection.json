@@ -1,0 +1,764 @@
+{
+	"info": {
+		"_postman_id": "a4db4ac8-42b9-43dd-9e48-d7e34067849b",
+		"name": "Microservices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27139029",
+		"_collection_link": "https://universal-astronaut-767478.postman.co/workspace/Platform-APIs~2e18bef9-05be-4363-8707-7cb3752a6d61/collection/27139029-a4db4ac8-42b9-43dd-9e48-d7e34067849b?action=share&source=collection_link&creator=27139029"
+	},
+	"item": [
+		{
+			"name": "LB-FromAPIGateway",
+			"item": [
+				{
+					"name": "Customers-LB",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData).to.have.property('customerId');",
+									"    pm.expect(responseData).to.have.property('firstName');",
+									"    pm.expect(responseData).to.have.property('lastName');",
+									"    pm.expect(responseData).to.have.property('email');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Email is in a valid format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.email).to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Email should be in a valid format\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\":\"Anji\",\n    \"lastName\":\"Evana\",\n    \"email\":\"anji.evana@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:9191/customers/"
+					},
+					"response": []
+				},
+				{
+					"name": "Customers-LB",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.customerId).to.exist;",
+									"    pm.expect(responseData.firstName).to.exist;",
+									"    pm.expect(responseData.lastName).to.exist;",
+									"    pm.expect(responseData.email).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Email is in a valid format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.email).to.be.a('string');",
+									"    pm.expect(responseData.email).to.match(/^[\\w-]+@([\\w-]+\\.)+[\\w-]+$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"CustomerId is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.customerId).to.be.a('number').and.to.satisfy((val) => val >= 0, \"Customer ID should be a non-negative integer\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt-token}}",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:9191/customers/18"
+					},
+					"response": []
+				},
+				{
+					"name": "Products-LB",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productName\":\"RealMe\",\n    \"productCode\":\"RM\",\n    \"price\": 32000,\n    \"category\":\"MOBILE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:9191/products/"
+					},
+					"response": []
+				},
+				{
+					"name": "Products-LB",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt-token}}",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:9191/products/4"
+					},
+					"response": []
+				},
+				{
+					"name": "Products-LB-MissingHeader",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {",
+									"    pm.expect(pm.response.code).to.equal(400);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response time is within an acceptable range\", function () {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required Content-Type header\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/plain\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response body contains the message 'Missing Authorization header'\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Missing Authorization header\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:9191/products/3"
+					},
+					"response": []
+				},
+				{
+					"name": "Products-LB-InvalidHeader",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 400\", function () {",
+									"    pm.expect(pm.response.code).to.equal(400);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has Content-Type header set to 'text/plain'\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equal(\"text/plain\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response body contains the error message 'Invalid Authorization header format'\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Invalid Authorization header format\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Berear adsndsjfdjfdjfdjddjfdfdfdfdfdf",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:9191/products/3"
+					},
+					"response": []
+				},
+				{
+					"name": "POST Orders-LB",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "JSESSIONID=3C65349D5878D1997AD7DFE65DC2275D"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customerId\": 18,\n    \"productId\": 3,\n    \"location\": \"Hyderabad\",\n    \"rating\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:9191/orders/",
+						"description": "Generated from cURL: curl --location 'http://localhost:9005/orders/' \\\n--header 'Content-Type: application/json' \\\n--header 'Cookie: JSESSIONID=3C65349D5878D1997AD7DFE65DC2275D' \\\n--data '{\n    \"customerId\": 16,\n    \"productId\": 2,\n    \"location\": \"Hyderabad\",\n    \"rating\": 3\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "Orders-LB",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customerId\": 10,\n    \"productId\": 1,\n    \"location\": \"Hyderabad\",\n    \"rating\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:9191/orders/19"
+					},
+					"response": []
+				},
+				{
+					"name": "Auth-Register-User",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "0b5bcbe1-da4d-4917-8bdf-684033a57008",
+								"username": "user"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "dsdsdsdsddsdsdsd",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userName\": \"anji\",\n    \"password\": \"anji\",\n    \"email\": \"anji.evana@gmail.com\",\n    \"enabled\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:9191/authentication/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Auth-Genarate-Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.text();",
+									"console.log(\"Using JWT Token:\", jsonData);",
+									"pm.environment.set(\"jwt-token\", jsonData); ",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has a valid JWT token in the body\", function () {",
+									"    const responseData = pm.response.text();",
+									"    ",
+									"    pm.expect(responseData).to.be.a('string');",
+									"    pm.expect(responseData).to.match(/^[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]+$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response body is in text/plain format\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/plain\");",
+									"});",
+									"",
+									" ",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "0b5bcbe1-da4d-4917-8bdf-684033a57008",
+								"username": "user"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "dsdsdsdsddsdsdsd",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userName\": \"user2\",\n    \"password\": \"pwd2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:9191/authentication/token"
+					},
+					"response": []
+				},
+				{
+					"name": "Auth-with-JWT",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt-token}}",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:9191/authentication/api/v1/hello"
+					},
+					"response": []
+				},
+				{
+					"name": "Auth-Public-API",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTczNTMyNDg3NCwiZXhwIjoxNzM1MzYwODc0fQ.IEb87bWSE3wY9ILIpcuNzuik7ho1pADSPPDIorwAxNE",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "http://localhost:9111/api/public/hello"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productName\":\"Shampo\",\n    \"productCode\":\"SHMPHO\",\n    \"price\": 123,\n    \"category\":\"HAIR\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9001/products/"
+			},
+			"response": []
+		},
+		{
+			"name": "Customers",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\":\"Mehaboob\",\n    \"lastName\":\"Allahana\",\n    \"email\":\"m.all@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9002/customers/"
+			},
+			"response": []
+		},
+		{
+			"name": "Orders",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customerId\": 12,\n    \"productId\": 1,\n    \"location\": \"Hyderabad\",\n    \"rating\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9005/orders/"
+			},
+			"response": []
+		},
+		{
+			"name": "Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:9001/products/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Customers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:9002/customers/10"
+			},
+			"response": []
+		},
+		{
+			"name": "Orders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:9005/orders/10"
+			},
+			"response": []
+		},
+		{
+			"name": "Kafka-producer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customerId\": 11,\n    \"firstName\": \"Revi\",\n    \"lastName\": \"Penagottala\",\n    \"email\": \"revi.e@hotmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/push/"
+			},
+			"response": []
+		},
+		{
+			"name": "Orders-LB Copy 2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customerId\": 10,\n    \"productId\": 1,\n    \"location\": \"Hyderabad\",\n    \"rating\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9191/orders/10"
+			},
+			"response": []
+		},
+		{
+			"name": "Optimistic-lock-ticker-booking",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9111/bookings/book?busNumber=1&fromStation=NS&toStation=SC&journeyDate=2024-12-24&ticketId=105&userId=20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9111",
+					"path": [
+						"bookings",
+						"book"
+					],
+					"query": [
+						{
+							"key": "busNumber",
+							"value": "1"
+						},
+						{
+							"key": "fromStation",
+							"value": "NS"
+						},
+						{
+							"key": "toStation",
+							"value": "SC"
+						},
+						{
+							"key": "journeyDate",
+							"value": "2024-12-24"
+						},
+						{
+							"key": "ticketId",
+							"value": "105"
+						},
+						{
+							"key": "userId",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Optimistic-Mocker",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9111/bookingsParallel/book?busNumber=1&fromStation=NS&toStation=SC&journeyDate=2024-12-24&ticketId=105&userId=20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9111",
+					"path": [
+						"bookingsParallel",
+						"book"
+					],
+					"query": [
+						{
+							"key": "busNumber",
+							"value": "1"
+						},
+						{
+							"key": "fromStation",
+							"value": "NS"
+						},
+						{
+							"key": "toStation",
+							"value": "SC"
+						},
+						{
+							"key": "journeyDate",
+							"value": "2024-12-24"
+						},
+						{
+							"key": "ticketId",
+							"value": "105"
+						},
+						{
+							"key": "userId",
+							"value": "20"
+						}
+					]
+				},
+				"description": "Generated from cURL: curl --location --request POST 'http://localhost:9111/bookings/book?busNumber=1&fromStation=NS&toStation=SC&journeyDate=2024-12-24&ticketId=105&userId=20'"
+			},
+			"response": []
+		},
+		{
+			"name": "Auth-Token",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "0b5bcbe1-da4d-4917-8bdf-684033a57008",
+						"username": "user"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-CSRF-TOKEN",
+						"value": "dsdsdsdsddsdsdsd",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"user2\",\n    \"password\": \"pwd2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9111/auth",
+				"description": "Generated from cURL: curl --location --request POST 'http://localhost:9111/bookings/book?busNumber=1&fromStation=NS&toStation=SC&journeyDate=2024-12-24&ticketId=105&userId=20'"
+			},
+			"response": []
+		},
+		{
+			"name": "Auth-with-JWT",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTczNTMyMzkzNiwiZXhwIjoxNzM1MzU5OTM2fQ.0M0LzqOTo2LSCfjZDnX1fRC9rZFI7em9wY8xzYwFjeU",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": "http://localhost:9111/api/v1/hello",
+				"description": "Generated from cURL: curl --location --request POST 'http://localhost:9111/bookings/book?busNumber=1&fromStation=NS&toStation=SC&journeyDate=2024-12-24&ticketId=105&userId=20'"
+			},
+			"response": []
+		},
+		{
+			"name": "Auth public",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9111/bookingsParallel/book?busNumber=1&fromStation=NS&toStation=SC&journeyDate=2024-12-24&ticketId=105&userId=20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9111",
+					"path": [
+						"bookingsParallel",
+						"book"
+					],
+					"query": [
+						{
+							"key": "busNumber",
+							"value": "1"
+						},
+						{
+							"key": "fromStation",
+							"value": "NS"
+						},
+						{
+							"key": "toStation",
+							"value": "SC"
+						},
+						{
+							"key": "journeyDate",
+							"value": "2024-12-24"
+						},
+						{
+							"key": "ticketId",
+							"value": "105"
+						},
+						{
+							"key": "userId",
+							"value": "20"
+						}
+					]
+				},
+				"description": "Generated from cURL: curl --location --request POST 'http://localhost:9111/bookings/book?busNumber=1&fromStation=NS&toStation=SC&journeyDate=2024-12-24&ticketId=105&userId=20'"
+			},
+			"response": []
+		}
+	]
+}

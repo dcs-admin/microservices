@@ -1,7 +1,7 @@
 
 ## Motivation to learn Spring Boot JWT Auth Service
 
-
+Initially implemented with stand alone JWT security service, later enabled with Microservice registered with Eruka client and security settings enabled with Gateway service, A Filter has been added in Gateway
 
 ### Security Configuration
 
