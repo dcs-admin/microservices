@@ -1,14 +1,23 @@
 
-# How to Play with basic Kafka 
+
+## Consumer Application Demo
+
+This is a simple demo of a producer application that sends messages to a Kafka topic. The producer application is written in Python and uses the `confluent_kafka` library to interact with Kafka.
+
+
+### Running the Consumer Application
+- Make sure Kafka installed and running both zookeper and kafka services
+- ```agsl
+# How to Play with basic Kafka
 
 
 - Install Kafka
-https://hevodata.com/learn/install-kafka-on-mac/ ==> https://kafka.apache.org/downloads
+  https://hevodata.com/learn/install-kafka-on-mac/ ==> https://kafka.apache.org/downloads
 
 - Extract Kafka
-tar -xzf kafka_2.13-3.0.0.tgz 
+  tar -xzf kafka_2.13-3.0.0.tgz
 
-- Downloaded to 
+- Downloaded to
 ```
 /Users/vevana/kafka/kafka_2.13-3.7.0
 ```
@@ -47,16 +56,13 @@ tar -xzf kafka_2.13-3.0.0.tgz
 
 RUN from SpringBoot App
 --
-cd kafka-demo && mvn spring-boot:run 
+cd kafka-consumer && mvn spring-boot:run
+```
 
-Run
-```
-curl --location 'http://localhost:8080/push/' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "customerId": 11,
-    "firstName": "Revi",
-    "lastName": "Hyderabad",
-    "email": "revi.e@hotmail.com"
-}'
-```
+
+## Open MySQL (Sequel Pro)
+![img.png](img.png)
+
+![img_1.png](img_1.png)
+ 
+![img_2.png](img_2.png)
