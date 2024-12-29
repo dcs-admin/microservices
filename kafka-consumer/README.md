@@ -57,10 +57,9 @@ This is a simple demo of a producer application that sends messages to a Kafka t
 RUN from SpringBoot App
 --
 cd kafka-consumer && mvn spring-boot:run
-```
 
+## Samples
 
-## Open MySQL (Sequel Pro)
 ![img.png](img.png)
 
 ![img_1.png](img_1.png)
