@@ -1,4 +1,4 @@
-package com.anji.kafka.entity;
+package org.kafka.shared.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class SystemProperties {
+public class SystemProperties implements java.io.Serializable {
     private String systemId;
     private String systemName;
     private String systemType;

@@ -1,8 +1,8 @@
 package com.anji.kafka.scheduler;
 
-import com.anji.kafka.entity.KafkaMessage;
-import com.anji.kafka.entity.ModelProperties;
-import com.anji.kafka.entity.SystemProperties;
+import org.kafka.shared.entity.KafkaMessage;
+import org.kafka.shared.entity.ModelProperties;
+import org.kafka.shared.entity.SystemProperties;
 import com.anji.kafka.service.ApplicationKafkaProducer;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
-package com.anji.kafka.serializer;
+package org.kafka.shared.serializer;
 
-import com.anji.kafka.entity.KafkaMessage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.serialization.Serializer;
+import org.kafka.shared.entity.KafkaMessage;
 
 import java.util.Map;
 

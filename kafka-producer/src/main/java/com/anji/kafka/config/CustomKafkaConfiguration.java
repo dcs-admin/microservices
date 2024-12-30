@@ -1,7 +1,8 @@
 package com.anji.kafka.config;
 
-import com.anji.kafka.entity.KafkaMessage;
+
 import org.apache.kafka.clients.producer.KafkaProducer;
+import org.kafka.shared.entity.KafkaMessage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,7 +16,7 @@ public class CustomKafkaConfiguration {
         Properties props = new Properties();
         props.put("bootstrap.servers", "localhost:9092");
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        props.put("value.serializer", "com.anji.kafka.serializer.KafkaMessageSerializer");
+        props.put("value.serializer", "org.kafka.shared.serializer.KafkaMessageSerializer");
 
         KafkaProducer<String, KafkaMessage> producer = new KafkaProducer<>(props);
         return producer;

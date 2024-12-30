@@ -1,4 +1,4 @@
-package com.anji.kafka.entity;
+package org.kafka.shared.entity;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

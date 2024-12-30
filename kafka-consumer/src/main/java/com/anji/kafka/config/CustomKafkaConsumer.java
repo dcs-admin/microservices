@@ -1,6 +1,6 @@
 package com.anji.kafka.config;
 
-import com.anji.kafka.entity.KafkaMessage;
+import org.kafka.shared.entity.KafkaMessage;
 import com.anji.kafka.service.GenericService;
 import com.anji.kafka.service.factory.ServiceFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,8 +26,7 @@ public class CustomKafkaConsumer {
     public void consume(String message) {
         try {
             KafkaMessage kafkaMessage = objectMapper.readValue(message, KafkaMessage.class);
-            System.out.println("The Converted Object:"+kafkaMessage.getPayloadType());
-            System.out.println("The Product:"+kafkaMessage.getModelProperties().getProduct());
+            System.out.println("Received PayloadType:"+kafkaMessage.getPayloadType().toLowerCase());
             // Route message to individual service
            GenericService genericService = serviceFactory.getService(kafkaMessage.getPayloadType());
            if(genericService != null){

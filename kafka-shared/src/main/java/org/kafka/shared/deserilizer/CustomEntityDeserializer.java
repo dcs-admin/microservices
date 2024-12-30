@@ -1,13 +1,13 @@
-package com.anji.kafka.deserializer;
+package org.kafka.shared.deserilizer;
 
-import com.anji.kafka.entity.CustomEntity;
-import com.anji.kafka.entity.Customer;
-import com.anji.kafka.entity.Product;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import org.kafka.shared.entity.CustomEntity;
+import org.kafka.shared.entity.Product;
 
 import java.io.IOException;
 

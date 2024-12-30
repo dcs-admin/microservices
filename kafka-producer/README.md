@@ -253,6 +253,61 @@ curl --location 'http://localhost:8080/kafka-producer/objectMessage' \
 
 
 
+
+Customer
+
+```curl
+curl --location 'http://localhost:8080/kafka-producer/objectMessage' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: JSESSIONID=3C65349D5878D1997AD7DFE65DC2275D' \
+--data '{
+    "accountId": 120343,
+    "payloadType": "CUSTOMER",
+    "modelProperties": {
+        "customEntity": { 
+            "customerName": "MaxPro",
+            "customerCode": "Chennai",
+            "customerAddress": "4343434",
+            "price": "32000",
+            "customerCategory": "MAX-33022-112AKI",
+            "type": "customer"
+        },
+        "modelId": "Key"
+    },
+    "systemProperties": {
+        "systemId": "SystemId",
+        "systemName": null
+    }
+}'
+```
+
+
+Product
+
+```curl
+curl --location 'http://localhost:8080/kafka-producer/objectMessage' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: JSESSIONID=3C65349D5878D1997AD7DFE65DC2275D' \
+--data '{
+    "accountId": 120343,
+    "payloadType": "PRODUCT",
+    "modelProperties": {
+        "customEntity": { 
+            "productName": "RealMe",
+            "productAddress": "Hyderabad",
+            "productCode": "3423293434",
+            "price": "32000",
+            "productCategory": "EXP34211NM_231",
+            "type": "product"
+        } 
+    },
+    "systemProperties": {
+        "systemId": "SystemId",
+        "systemName": null
+    }
+}'
+```
+
 -- Next Open kafka-consumer springboot app and run the application
 
 

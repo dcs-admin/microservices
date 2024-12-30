@@ -1,6 +1,6 @@
 package com.anji.kafka.service;
 
-import com.anji.kafka.entity.KafkaMessage;
+import org.kafka.shared.entity.KafkaMessage;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.beans.factory.annotation.Autowired;

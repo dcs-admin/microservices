@@ -1,7 +1,7 @@
 package com.anji.kafka.service;
 
-import com.anji.kafka.entity.CustomEntity;
-import com.anji.kafka.entity.KafkaMessage;
+import org.kafka.shared.entity.CustomEntity;
+import org.kafka.shared.entity.KafkaMessage;
 
 public interface GenericService {
 

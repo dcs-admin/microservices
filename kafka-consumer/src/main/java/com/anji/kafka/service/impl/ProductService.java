@@ -1,9 +1,9 @@
 package com.anji.kafka.service.impl;
 
-import com.anji.kafka.entity.CustomEntity;
-import com.anji.kafka.entity.KafkaMessage;
+import org.kafka.shared.entity.CustomEntity;
+import org.kafka.shared.entity.KafkaMessage;
 
-import com.anji.kafka.entity.Product;
+import org.kafka.shared.entity.Product;
 import com.anji.kafka.repository.ProductRepository;
 import com.anji.kafka.service.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
