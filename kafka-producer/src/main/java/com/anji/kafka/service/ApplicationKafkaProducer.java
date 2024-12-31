@@ -22,8 +22,9 @@ public class ApplicationKafkaProducer {
     @Autowired
     private KafkaProducer<String, KafkaMessage> producer;
 
-    public void sendMessage(String message) {
-        kafkaTemplate.send(TOPIC, message);
+    public  Future<RecordMetadata> sendMessage(String message) {
+        Future meta = kafkaTemplate.send(TOPIC, message);
+        return meta;
     }
 
     public void sendMessage(String topic, String message) {
