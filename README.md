@@ -52,11 +52,15 @@ cd customer-service && mvn spring-boot:run
 
 cd order-service && mvn spring-boot:run 
 
-cd kafka-demo
+cd auth-service && mvn spring-boot:run 
 
-cd hystrix-dashboard && mvn spring-boot:run 
+cd kafka-demo  -- optional
+
+cd hystrix-dashboard && mvn spring-boot:run  -- optional
 ```
 
+Then open Service registry URL to make sure all services up and running 
+http://localhost:8761
 
 
 #### Product Service:
@@ -476,4 +480,37 @@ Consumed message: {"customerId":11,"firstName":"Revi","lastName":"Hyderabad","em
 
 
 ## Netflix Conductor Demo
+
+
+
+## Whole Microservices with JWT Authentication Enabled
+
+- Make sure all services are up and running
+
+- Postman collection given `Microservices.postman_collection.json` on api-gateway repo, kindly download 
+
+- High level changes
+
+```
+1. API Gateway  - Added AuthenticationFilter which validates whether all routes are adding with Header `Authorization` and ignored few routes for inital register/get_token 
+
+2. Added filters:
+            - AuthenticationFilter on application.yml for existing services Product/Orders
+
+3. AuthService: Added Eureka Client Enablement and added register endpoint  
+  
+
+```
+
+- You can try running following APIs in order to see how this demo working with API Gateway as single point of contact
+
+    1. Auth-Register-User
+    2. Auth-Genarate-Token
+    3. Auth-with-JWT
+    4. Auth-Public-API
+    5. POST Customers-LB  then GET
+    6. POST Products-LB  then GET
+    7. Products-LB-MissingHeader and Products-LB-InvalidHeader - to see if we miss auth header 
+    8. POST Orders-LB and GET
+
 

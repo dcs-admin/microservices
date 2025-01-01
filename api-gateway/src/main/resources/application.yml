@@ -18,6 +18,7 @@ spring:
           predicates:
             - Path=/customers/**
           filters:
+            - AuthenticationFilter
             - name: CircuitBreaker
               args:
                 name: CUSTOMER-SERVICE
@@ -28,6 +29,7 @@ spring:
           predicates:
             - Path=/products/**
           filters:
+            - AuthenticationFilter
             - name: CircuitBreaker
               args:
                 name: PRODUCT-SERVICE
@@ -38,10 +40,21 @@ spring:
           predicates:
             - Path=/orders/**
           filters:
+            - AuthenticationFilter
             - name: CircuitBreaker
               args:
                 name: ORDER-SERVICE
                 fallbackuri: forward:/orderServiceFallback
+
+        - id: AUTHENTICATION-SERVICE
+          uri: lb://AUTHENTICATION-SERVICE
+          predicates:
+            - Path=/authentication/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: AUTHENTICATION-SERVICE
+                fallbackuri: forward:/authenticationServiceFallback
 
         - id: DCS-WEBSOCKET-SERVICE
           uri: lb://DCS-WEBSOCKET-SERVICE
@@ -66,3 +79,5 @@ management:
       exposure:
         include: hystrix.stream
 
+jwt:
+  secret: q7ZJt9MHV8kZnt0eC/Kvy2TEYJ5vTE4c8zH1TrZ0OIc=

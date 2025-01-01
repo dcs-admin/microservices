@@ -1,8 +1,10 @@
 package com.anji.api.gateway.controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
-
+@RestController
 public class FallbackController {
 
     @GetMapping("/customerServiceFallback")
@@ -25,4 +27,13 @@ public class FallbackController {
     public String websocketServicefallback(){
         return "WEBSOCKET-SERVICE is not responding ontime, please try again later";
     }
+
+
+
+    @GetMapping("/authenticationServiceFallback")
+    public String authenticationServiceFallback(){
+        return "AuthenticationService is not responding ontime, please try again later";
+    }
+
+
 }
