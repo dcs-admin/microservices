@@ -10,13 +10,10 @@ import (
 	"sync/atomic"
 	"strconv"
 	"html"
-	"html/template"
-
+	"html/template" 
 	"github.com/gorilla/csrf"
-	"github.com/gorilla/mux"
-
-	"time"
-
+	"github.com/gorilla/mux" 
+	"time" 
 	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/time/rate"
 )

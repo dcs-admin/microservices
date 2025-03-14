@@ -2,25 +2,28 @@ package main
 
 import (
 	//"database/sql"
-	"encoding/json"
 	//"fmt"
+	//"strconv"
+	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
-	//"strconv"
 	"time"
-	"gorm.io/gorm"
-	"gorm.io/driver/mysql"
+
 	"github.com/dgrijalva/jwt-go"
-	"github.com/gorilla/mux"
-	"github.com/gorilla/handlers"
-	"github.com/sirupsen/logrus"
 	"github.com/go-playground/validator/v10"
-	"golang.org/x/time/rate"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
+	"github.com/sirupsen/logrus"
+	"golang.org/x/time/rate"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
-//var db *sql.DB
+// var db *sql.DB
 var db *gorm.DB
 var validate *validator.Validate
 var jwtKey = []byte("MTc0MTg1MTg0NXxJa2xVY1hOVmNrWnhTWGQ1U1VSdmRqWTNZa3BNYVRsWVdGbGlVemR3TWsxb1ltbENUa1U0YkZNMlZGVTlJZ289fE07KlEGjYRED5UbyhiM_l6vVI33sYzVhU_TpR54Uy7Q")
@@ -32,6 +35,7 @@ type Customer struct {
 	Name    string `json:"name" validate:"required"`
 	Email   string `json:"email" validate:"required,email"`
 	Address string `json:"address" validate:"required"`
+	City    string `json:"city" validate:"required"`
 }
 
 type Claims struct {
@@ -81,7 +85,7 @@ func generateToken(w http.ResponseWriter, r *http.Request) {
 
 // Middleware for authentication
 func authMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { 
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Skip authentication for the token endpoint
 		if r.URL.Path == "/api/token" {
 			next.ServeHTTP(w, r)
@@ -103,64 +107,49 @@ func authMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-
 		next.ServeHTTP(w, r)
 	})
 }
 
-// Initialize database connection
-// func initDB() {
-// 	var err error
-// 	//db, err = sql.Open("postgres", "user=youruser password=yourpassword dbname=yourdb sslmode=disable")
-// 	db, err = sql.Open("mysql", "root:p2wd1234@123@tcp(localhost:3306)/customer")
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// }
-
-// // CRUD Handlers (Simplified for brevity)
-// func createCustomer(w http.ResponseWriter, r *http.Request) {
-// 	fmt.Println("Creating Customer")
-// 	var c Customer
-// 	if err := json.NewDecoder(r.Body).Decode(&c); err != nil {
-// 		http.Error(w, "Invalid JSON", http.StatusBadRequest)
-// 		return
-// 	}
-// 	fmt.Println(c)
-// 	if err := validate.Struct(c); err != nil {
-// 		http.Error(w, "Validation failed", http.StatusBadRequest)
-// 		return
-// 	}
-// 	record, err := db.Exec("INSERT INTO customers (name, email, address) VALUES (?, ?, ?)", c.Name, c.Email, c.Address)
-// 	if err != nil {
-// 		logrus.WithError(err).Error("Database operation failed") 
-// 		http.Error(w, "Database error", http.StatusInternalServerError)
-// 		return
-// 	}
-// 	w.WriteHeader(http.StatusCreated)
-// 	json.NewEncoder(w).Encode(record)
-// }
-
-func initLogging(){
+func initLogging() {
 	// Create a log file
-    file, err := os.OpenFile("app.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-    if err != nil {
-        logrus.Fatal("Failed to open log file:", err)
-    }
-    
-    // Set Logrus to write to the file
-    logrus.SetOutput(file)
-    logrus.SetFormatter(&logrus.JSONFormatter{}) // Optional: Format logs as JSON
+	file, err := os.OpenFile("app.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		logrus.Fatal("Failed to open log file:", err)
+	}
 
-    logrus.Info("Application started!")
+	// Set Logrus to write to the file
+	logrus.SetOutput(file)
+	logrus.SetFormatter(&logrus.JSONFormatter{}) // Optional: Format logs as JSON
+
+	logrus.Info("Application started!")
 }
-
-
 
 // Initialize DB Connection
 func initDB() {
-	dsn := "root:p2wd1234@123@tcp(localhost:3306)/customer?charset=utf8mb4&parseTime=True&loc=Local"
-	var err error
+	// Load .env file
+	err := godotenv.Load("config.env")
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	// Read database credentials from env
+	dbUser := os.Getenv("DB_USER")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+	dbName := os.Getenv("DB_NAME")
+	dbCharset := os.Getenv("DB_CHARSET")
+	dbOptions := os.Getenv("DB_OPTIONS")
+
+	// Construct MySQL connection string
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&%s",
+		dbUser, dbPassword, dbHost, dbPort, dbName, dbCharset, dbOptions)
+
+	fmt.Println("MySQL DSN:", dsn)
+	logrus.Info("MySQL DSN:", dsn)
+	//dsn := "root:p2wd1234@123@tcp(localhost:3306)/customer?charset=utf8mb4&parseTime=True&loc=Local"
+	//var err error
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Failed to connect to database:", err)
@@ -178,7 +167,7 @@ func CreateCustomer(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid request payload", http.StatusBadRequest)
 		return
 	}
-	
+
 	if err := db.Create(&customer).Error; err != nil {
 		http.Error(w, "Error saving customer", http.StatusInternalServerError)
 		return
@@ -259,18 +248,22 @@ func DeleteCustomer(w http.ResponseWriter, r *http.Request) {
 	logrus.Info("DeleteCustomer:: " + string(customerJSON))
 }
 
-
+// Handled Auth, CORS, RateLimiting middleware
+// API Security
+// CURD
+// Logging
+// Exception Handling
 func main() {
-	initDB()
 	initLogging()
-	
+	initDB()
+
 	validate = validator.New()
 	r := mux.NewRouter()
-	
+
 	//r.Handle("/api/customers", authMiddleware(rateLimitMiddleware(http.HandlerFunc(createCustomer)))).Methods("POST")
 
 	// Group routes under a subrouter to apply middleware globally
-	apiRouter := r.PathPrefix("/api").Subrouter() 
+	apiRouter := r.PathPrefix("/api").Subrouter()
 	// Define Routes
 	apiRouter.HandleFunc("/token", generateToken).Methods("GET")
 	apiRouter.HandleFunc("/customers", CreateCustomer).Methods("POST")
@@ -283,6 +276,6 @@ func main() {
 	withMiddleware := authMiddleware(rateLimitMiddleware(apiRouter))
 
 	http.Handle("/", loggingMiddleware(r))
-	log.Println("Server running on port 8080...")
-	log.Fatal(http.ListenAndServe(":8080", handlers.CORS(handlers.AllowedOrigins([]string{"*"}))(withMiddleware)))
+	log.Println("Server running on port 1000...")
+	log.Fatal(http.ListenAndServe(":1000", handlers.CORS(handlers.AllowedOrigins([]string{"*"}))(withMiddleware)))
 }
