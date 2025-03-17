@@ -1,0 +1,21 @@
+<h2>My Profile</h2>
+
+<div class="profile-container">
+  <h3>Name: {{ customer?.name }}</h3>
+  <p>Email: {{ customer?.email }}</p>
+  <p>City: {{ customer?.city }}</p>
+  <p>Address: {{ customer?.address }}</p>
+  
+
+  <button routerLink="/profile/edit">Edit Profile</button>
+  <button (click)="fetchOrders()">Show Orders</button>
+
+  <div *ngIf="orders.length > 0">
+    <h3>Order History</h3>
+    <ul>
+      <li *ngFor="let order of orders">
+        Order ID: {{ order.id }} - Total: {{ order.total }}$
+      </li>
+    </ul>
+  </div>
+</div>

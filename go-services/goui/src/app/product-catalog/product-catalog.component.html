@@ -1,0 +1,15 @@
+<div class="catalog">
+    <h2>Product Catalog</h2>
+    <div class="product-grid">
+      <div *ngFor="let product of filteredProducts" class="product-card">
+        <a [routerLink]="['/products', product.id]">
+         <img [src]="product.images[0]" alt="{{ product.name }}">
+        </a>
+        <h3>{{ product.name }}</h3>
+        <p class="price"><span>₹</span>{{ product.price }}</p>
+        <button (click)="addToCart(product)">Add to Cart</button>
+      </div>
+    </div>
+    <p *ngIf="filteredProducts.length === 0">No products found.</p>
+  </div>
+  

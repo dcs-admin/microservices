@@ -11,6 +11,8 @@ import (
 	"os"
 	"time"
 
+	"gorm.io/datatypes"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/go-playground/validator/v10"
 	_ "github.com/go-sql-driver/mysql"
@@ -29,13 +31,25 @@ var validate *validator.Validate
 var jwtKey = []byte("MTc0MTg1MTg0NXxJa2xVY1hOVmNrWnhTWGQ1U1VSdmRqWTNZa3BNYVRsWVdGbGlVemR3TWsxb1ltbENUa1U0YkZNMlZGVTlJZ289fE07KlEGjYRED5UbyhiM_l6vVI33sYzVhU_TpR54Uy7Q")
 var limiter = rate.NewLimiter(1, 5)
 
-// Customer model
-type Customer struct {
-	ID      int    `json:"id"`
-	Name    string `json:"name" validate:"required"`
-	Email   string `json:"email" validate:"required,email"`
-	Address string `json:"address" validate:"required"`
-	City    string `json:"city" validate:"required"`
+// Product model
+type Product struct {
+	ID             uint           `json:"id"`
+	Name           string         `json:"name"`
+	Description    string         `json:"description"`
+	Price          float64        `json:"price"`
+	Currency       string         `json:"currency"`
+	StockQuantity  int            `json:"stock_quantity"`
+	Category       string         `json:"category"`
+	Brand          string         `json:"brand"`
+	SKU            string         `json:"sku"`
+	Images         datatypes.JSON `json:"images" gorm:"type:json"`
+	Ratings        float64        `json:"ratings"`
+	Reviews        datatypes.JSON `json:"reviews" gorm:"type:json"`
+	CreatedAt      time.Time      `json:"created_at"`
+	UpdatedAt      time.Time      `json:"updated_at"`
+	AdditionalInfo string         `json:"additional_info"`
+	Specifications string         `json:"specifications"`
+	Model          string         `json:"model"`
 }
 
 type Claims struct {
@@ -148,104 +162,104 @@ func initDB() {
 
 	fmt.Println("MySQL DSN:", dsn)
 	logrus.Info("MySQL DSN:", dsn)
-	//dsn := "root:p2wd1234@123@tcp(localhost:3306)/customer?charset=utf8mb4&parseTime=True&loc=Local"
+	//dsn := "root:p2wd1234@123@tcp(localhost:3306)/product?charset=utf8mb4&parseTime=True&loc=Local"
 	//var err error
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Failed to connect to database:", err)
 	}
 
-	// AutoMigrate the Customer table
-	db.AutoMigrate(&Customer{})
+	// AutoMigrate the Product table
+	db.AutoMigrate(&Product{})
 	logrus.Info("Database  initiated!")
 }
 
-// Create a New Customer (POST /customers)
-func CreateCustomer(w http.ResponseWriter, r *http.Request) {
-	var customer Customer
-	if err := json.NewDecoder(r.Body).Decode(&customer); err != nil {
+// Create a New Product (POST /products)
+func CreateProduct(w http.ResponseWriter, r *http.Request) {
+	var product Product
+	if err := json.NewDecoder(r.Body).Decode(&product); err != nil {
 		http.Error(w, "Invalid request payload", http.StatusBadRequest)
 		return
 	}
 
-	if err := db.Create(&customer).Error; err != nil {
-		http.Error(w, "Error saving customer", http.StatusInternalServerError)
+	if err := db.Create(&product).Error; err != nil {
+		http.Error(w, "Error saving product", http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(customer)
-	customerJSON, _ := json.Marshal(customer)
-	logrus.Info("Customer created: " + string(customerJSON))
+	json.NewEncoder(w).Encode(product)
+	productJSON, _ := json.Marshal(product)
+	logrus.Info("Product created: " + string(productJSON))
 }
 
-// Get All Customers (GET /customers)
-func GetAllCustomers(w http.ResponseWriter, r *http.Request) {
-	var customers []Customer
-	db.Find(&customers)
+// Get All Products (GET /products)
+func GetAllProducts(w http.ResponseWriter, r *http.Request) {
+	var products []Product
+	db.Find(&products)
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(customers)
+	json.NewEncoder(w).Encode(products)
 
-	customerJSON, _ := json.Marshal(customers)
-	logrus.Info("GetAllCustomers: Customers List " + string(customerJSON))
+	productJSON, _ := json.Marshal(products)
+	logrus.Info("GetAllProducts: Products List " + string(productJSON))
 }
 
-// Get Customer by ID (GET /customers/{id})
-func GetCustomerByID(w http.ResponseWriter, r *http.Request) {
+// Get Product by ID (GET /products/{id})
+func GetProductByID(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	var customer Customer
-	if err := db.First(&customer, params["id"]).Error; err != nil {
-		http.Error(w, "Customer not found", http.StatusNotFound)
+	var product Product
+	if err := db.First(&product, params["id"]).Error; err != nil {
+		http.Error(w, "Product not found", http.StatusNotFound)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(customer)
+	json.NewEncoder(w).Encode(product)
 
-	customerJSON, _ := json.Marshal(customer)
-	logrus.Info("GetCustomerByID:: " + string(customerJSON))
+	productJSON, _ := json.Marshal(product)
+	logrus.Info("GetProductByID:: " + string(productJSON))
 }
 
-// Update Customer (PUT /customers/{id})
-func UpdateCustomer(w http.ResponseWriter, r *http.Request) {
+// Update Product (PUT /products/{id})
+func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	var customer Customer
+	var product Product
 
-	// Check if customer exists
-	if err := db.First(&customer, params["id"]).Error; err != nil {
-		http.Error(w, "Customer not found", http.StatusNotFound)
+	// Check if product exists
+	if err := db.First(&product, params["id"]).Error; err != nil {
+		http.Error(w, "Product not found", http.StatusNotFound)
 		return
 	}
 
 	// Decode request body
-	if err := json.NewDecoder(r.Body).Decode(&customer); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&product); err != nil {
 		http.Error(w, "Invalid request payload", http.StatusBadRequest)
 		return
 	}
 
-	db.Save(&customer)
+	db.Save(&product)
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(customer)
+	json.NewEncoder(w).Encode(product)
 
-	customerJSON, _ := json.Marshal(customer)
-	logrus.Info("UpdateCustomer:: " + string(customerJSON))
+	productJSON, _ := json.Marshal(product)
+	logrus.Info("UpdateProduct:: " + string(productJSON))
 }
 
-// Delete Customer (DELETE /customers/{id})
-func DeleteCustomer(w http.ResponseWriter, r *http.Request) {
+// Delete Product (DELETE /products/{id})
+func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	var customer Customer
+	var product Product
 
-	// Check if customer exists
-	if err := db.First(&customer, params["id"]).Error; err != nil {
-		http.Error(w, "Customer not found", http.StatusNotFound)
+	// Check if product exists
+	if err := db.First(&product, params["id"]).Error; err != nil {
+		http.Error(w, "Product not found", http.StatusNotFound)
 		return
 	}
 
-	db.Delete(&customer)
+	db.Delete(&product)
 	w.WriteHeader(http.StatusNoContent)
 
-	customerJSON, _ := json.Marshal(customer)
-	logrus.Info("DeleteCustomer:: " + string(customerJSON))
+	productJSON, _ := json.Marshal(product)
+	logrus.Info("DeleteProduct:: " + string(productJSON))
 }
 
 // 🎯 Function to apply CORS middleware
@@ -269,17 +283,17 @@ func main() {
 	validate = validator.New()
 	r := mux.NewRouter()
 
-	//r.Handle("/api/customers", authMiddleware(rateLimitMiddleware(http.HandlerFunc(createCustomer)))).Methods("POST")
+	//r.Handle("/api/products", authMiddleware(rateLimitMiddleware(http.HandlerFunc(createProduct)))).Methods("POST")
 
 	// Group routes under a subrouter to apply middleware globally
 	apiRouter := r.PathPrefix("/api").Subrouter()
 	// Define Routes
 	apiRouter.HandleFunc("/token", generateToken).Methods("GET")
-	apiRouter.HandleFunc("/customers", CreateCustomer).Methods("POST")
-	apiRouter.HandleFunc("/customers", GetAllCustomers).Methods("GET")
-	apiRouter.HandleFunc("/customers/{id}", GetCustomerByID).Methods("GET")
-	apiRouter.HandleFunc("/customers/{id}", UpdateCustomer).Methods("PUT")
-	apiRouter.HandleFunc("/customers/{id}", DeleteCustomer).Methods("DELETE")
+	apiRouter.HandleFunc("/products", CreateProduct).Methods("POST")
+	apiRouter.HandleFunc("/products", GetAllProducts).Methods("GET")
+	apiRouter.HandleFunc("/products/{id}", GetProductByID).Methods("GET")
+	apiRouter.HandleFunc("/products/{id}", UpdateProduct).Methods("PUT")
+	apiRouter.HandleFunc("/products/{id}", DeleteProduct).Methods("DELETE")
 
 	// Apply Middlewares globally
 	withMiddleware := authMiddleware(rateLimitMiddleware(apiRouter))
@@ -288,6 +302,6 @@ func main() {
 	corsRouter := setupCORS(withMiddleware)
 
 	http.Handle("/", loggingMiddleware(r))
-	log.Println("Server running on port 1000...")
-	log.Fatal(http.ListenAndServe(":1000", corsRouter))
+	log.Println("Server running on port 2000...")
+	log.Fatal(http.ListenAndServe(":2000", corsRouter))
 }

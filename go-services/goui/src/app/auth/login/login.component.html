@@ -1,0 +1,12 @@
+<div class="auth-container">
+    <h2>Login</h2>
+    <form (ngSubmit)="login()" name="login-form">
+      <input name="t1" type="email" [(ngModel)]="email" placeholder="Email" required>
+      <input name="t2" type="password" [(ngModel)]="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+    <p><a routerLink="/forgot-password">Forgot Password?</a></p>
+    <p>New here? <a routerLink="/register">Register</a></p>
+  </div>
+  

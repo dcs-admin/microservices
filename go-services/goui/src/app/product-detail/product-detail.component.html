@@ -1,0 +1,67 @@
+<a class="buy-now" routerLink="/products">Back to Product Catalog</a>
+<div class="product-detail-container">
+    <!-- Left: Product Images --> 
+    <div class="product-images">
+      <img [src]="product.images[0]" [alt]="product.name" class="main-image">
+      <div class="thumbnail-container">
+        <img *ngFor="let img of product.images" [src]="img" [alt]="product.name" class="thumbnail">
+      </div>
+    </div>
+  
+    <!-- Right: Product Details -->
+    <div class="product-info">
+      <h1>{{ product.name }}</h1>
+      <p class="description">{{ product.description }}</p>
+      <p class="price"><strong>Price:</strong> ${{ product.price }}</p>
+  
+      <div class="quantity-section">
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" [(ngModel)]="quantity" min="1" max="10">
+      </div>
+  
+      <div class="action-buttons">
+        <button class="buy-now" (click)="buyNow()" >Buy Now</button>
+        <button class="add-to-cart" (click)="addToCart()">Add to Cart</button>
+      </div>
+  
+      <hr>
+  
+      <!-- Product Specifications -->
+      <div class="product-specifications">
+        <h2>Product Specifications</h2>
+        <ul>
+            {{product.specifications}}
+          <li *ngFor="let spec of product.specifications">{{ spec }}</li>
+        </ul>
+      </div>
+  
+      <!-- Manufacturer Details -->
+      <div class="manufacturer-details">
+        <h2>Manufacturer Details</h2>
+        <p><strong>Brand:</strong> {{ product.brand }}</p>
+        <p><strong>Model:</strong> {{ product.model }}</p>
+        <p><strong>Country of Origin:</strong> {{ product.origin }}</p>
+      </div>
+  
+      <!-- Additional Information -->
+      <div class="additional-info">
+        <h2>Additional Information</h2>
+        <p>{{ product.additional_info }}</p>
+      </div>
+  
+      <!-- Ratings & Reviews -->
+      <div class="ratings-reviews">
+        <h2>Ratings & Reviews</h2>
+        <p><strong>Rating:</strong> ⭐ {{ product.rating }} / 5</p>
+        <button class="write-review">Write a Review</button>
+      </div>
+  
+      <!-- Delivery Preferences -->
+      <div class="delivery-preferences">
+        <h2>Delivery Preferences</h2>
+        <input type="text" placeholder="Enter your Pincode">
+        <button class="check-delivery" (click)="check()">Check</button>
+      </div>
+    </div>
+  </div>
+  

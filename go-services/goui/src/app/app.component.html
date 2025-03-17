@@ -1,0 +1,39 @@
+<div class="app-container">
+  <!-- 🌟 Header -->
+  <header>
+    <div class="logo" ><span [routerLink]="['/']"> ShopZone</span></div>
+    <nav>
+      <span *ngIf="user">
+        <a class="show-profile-name" routerLink="/profile">Welcome, {{ user.name }}</a>
+      </span>
+   
+
+      <input type="text"  (input)="updateSearchQuery($event)" placeholder="Search products...">
+     
+      
+
+      <!-- 🛒 Cart Icon with Count -->
+      <div class="cart" (click)="openCart()" (cartClicked)="openCart()">
+        <span class="cart-icon">🛒</span>
+        <!-- [routerLink]="['/cart']" -->
+        <span class="cart-count" >{{ cartCount }}</span>
+      </div>
+
+      <button class="log-button" *ngIf="user" (click)="logout()">Logout</button> 
+      <button class="log-button"  *ngIf="user === null" routerLink="/login">Login</button>
+    </nav>
+  </header>
+
+  <!-- 🛒 Product Catalog -->
+  <main>
+    <!-- <app-product-catalog [searchQuery]="searchQuery" (cartUpdated)="updateCartCount($event)"></app-product-catalog> -->
+    <router-outlet ></router-outlet>  <!-- ✅ Loads catalog or details dynamically -->
+
+    <app-cart *ngIf="isCartOpen" (closeCartEmiter)="closeCart()"></app-cart>
+  </main>
+
+  <!-- 📢 Footer -->
+  <footer>
+    <p>&copy; 2025 ShopZone. Node-18, Angular-16, Golang-1.23 support - All rights reserved. - Anji Evana</p>
+  </footer>
+</div>

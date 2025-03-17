@@ -11,6 +11,55 @@ Key concepts covered in my article
 -  JWT Token Authorization
 -  Rate Limiting
 
+
+### GoUI
+
+Angular application
+
+```
+
+cd goui
+
+vevana@FWS-CHE-LT-7895 goui % node --version
+v18.12.1
+
+
+vevana@FWS-CHE-LT-7895 goui % ng version
+
+     _                      _                 ____ _     ___
+    / \   _ __   __ _ _   _| | __ _ _ __     / ___| |   |_ _|
+   / △ \ | '_ \ / _` | | | | |/ _` | '__|   | |   | |    | |
+  / ___ \| | | | (_| | |_| | | (_| | |      | |___| |___ | |
+ /_/   \_\_| |_|\__, |\__,_|_|\__,_|_|       \____|_____|___|
+                |___/
+    
+
+Angular CLI: 16.0.6
+Node: 18.12.1
+Package Manager: npm 9.7.1
+OS: darwin x64
+
+Angular: 16.2.12
+... animations, common, compiler, compiler-cli, core, forms
+... platform-browser, platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1602.16
+@angular-devkit/build-angular   16.2.16
+@angular-devkit/core            16.2.16
+@angular-devkit/schematics      16.0.6
+@angular/cli                    16.0.6
+@schematics/angular             16.0.6
+rxjs                            7.8.2
+typescript                      5.0.4
+    
+--
+
+ng serve -o
+
+```
+
 ### Customer Service
 
 ```

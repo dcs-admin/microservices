@@ -1,0 +1,24 @@
+<div class="cart-modal" *ngIf="isCartOpen">
+    <div class="cart-content">
+      <h4>Shopping Cart</h4>
+      <button class="close-btn"   (click)="closeCart()" >✖</button>
+  
+      <div class="cart-items">
+        <div *ngFor="let item of cartItems">
+          <img [src]="item.images[0]" [alt]="item.name" class="cart-image">
+          <div class="cart-info">
+            <h3>{{ item.name }}</h3>
+            <p>Price: <span>₹</span>{{ item.price }}</p>
+            <p>Quantity: {{ item.quantity }}</p>
+            <p><strong>Subtotal: <span>₹</span>{{ item.price * item.quantity }}</strong></p>
+            <button (click)="removeItem(item.id)">Remove</button>
+          </div>
+        </div>
+      </div>
+  
+      <h3>Total Amount: <span>₹</span>{{ totalAmount }}</h3>
+      <button *ngIf="isUserLoggedIn()" (click)="proceedToCheckout()" class="checkout-btn">Proceed to Checkout</button>
+      <p *ngIf="!isUserLoggedIn()" class="alert-text"> * Please try to login if you wanted to place the order </p>
+    </div>
+  </div>
+  
