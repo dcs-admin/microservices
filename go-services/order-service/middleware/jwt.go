@@ -26,6 +26,10 @@ type contextKey string
 
 const userIDKey contextKey = "id"
 
+func GetJwtToken() []byte {
+	return jwtSecret
+}
+
 // JWTMiddleware validates JWT token and extracts user_id
 func JWTMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {

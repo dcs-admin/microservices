@@ -27,7 +27,7 @@ import (
 var db *gorm.DB
 var validate *validator.Validate
 var jwtKey = []byte("MTc0MTg1MTg0NXxJa2xVY1hOVmNrWnhTWGQ1U1VSdmRqWTNZa3BNYVRsWVdGbGlVemR3TWsxb1ltbENUa1U0YkZNMlZGVTlJZ289fE07KlEGjYRED5UbyhiM_l6vVI33sYzVhU_TpR54Uy7Q")
-var limiter = rate.NewLimiter(1, 5)
+var limiter = rate.NewLimiter(1, 50)
 
 // Customer model
 type Customer struct {

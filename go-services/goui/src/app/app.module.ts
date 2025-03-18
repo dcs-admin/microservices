@@ -13,6 +13,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
+import { OrdersComponent } from './orders/orders.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { EditProfileComponent } from './profile/edit-profile/edit-profile.compon
     RegisterComponent,
     ForgotPasswordComponent,
     ProfileComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,

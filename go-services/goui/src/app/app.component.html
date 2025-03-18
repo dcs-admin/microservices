@@ -1,26 +1,28 @@
 <div class="app-container">
   <!-- 🌟 Header -->
   <header>
-    <div class="logo" ><span [routerLink]="['/']"> ShopZone</span></div>
+    <div class="logo">
+      <span [routerLink]="['/']">ShopZone</span>
+    </div>
+    
     <nav>
       <span *ngIf="user">
         <a class="show-profile-name" routerLink="/profile">Welcome, {{ user.name }}</a>
       </span>
-   
-
-      <input type="text"  (input)="updateSearchQuery($event)" placeholder="Search products...">
-     
-      
-
-      <!-- 🛒 Cart Icon with Count -->
-      <div class="cart" (click)="openCart()" (cartClicked)="openCart()">
+  
+      <a class="head-button" routerLink="/profile" *ngIf="user">My Profile</a>
+      <a class="head-button" routerLink="/orders" *ngIf="user">My Orders</a>
+  
+      <input type="text" (input)="updateSearchQuery($event)" placeholder="Search products...">
+  
+      <a   routerLink="/cart" class="cart">
         <span class="cart-icon">🛒</span>
-        <!-- [routerLink]="['/cart']" -->
-        <span class="cart-count" >{{ cartCount }}</span>
-      </div>
-
-      <button class="log-button" *ngIf="user" (click)="logout()">Logout</button> 
-      <button class="log-button"  *ngIf="user === null" routerLink="/login">Login</button>
+        <span class="cart-count">{{ cartCount }}</span>
+        <span class="head-button" >My Cart </span>
+      </a>
+  
+      <button class="log-button" *ngIf="user" (click)="logout()">Logout</button>
+      <button class="log-button" *ngIf="!user" routerLink="/login">Login</button>
     </nav>
   </header>
 
