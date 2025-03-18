@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 import { CartService } from '../services/cart.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class CartComponent implements OnInit {
   @Output() closeCartEmiter = new EventEmitter<void>();
   
   constructor(public cartService: CartService, 
+    private authService: AuthService,
     private http: HttpClient,
     ) {}
 
@@ -53,7 +55,7 @@ export class CartComponent implements OnInit {
     }
 
     const orderData = this.cartItems.map(item => ({
-      customer_id: 1, // Replace with actual customer ID from logged-in user
+      customer_id: this.authService.getUser().id, // Replace with actual customer ID from logged-in user
       product_id: item.id,
       quantity: item.quantity,
       per_cost: item.price,
@@ -63,8 +65,8 @@ export class CartComponent implements OnInit {
 
     
     this.cartService.postOrder(orderData).subscribe(
-      response => {
-        alert("Order placed successfully!");
+      (response:any) => {
+        alert("Order Status: "+response.message+", Total: "+response.order_count+", refernce_ids: "+response.order_ids);
         this.cartService.clearCart();
       },
       error => {

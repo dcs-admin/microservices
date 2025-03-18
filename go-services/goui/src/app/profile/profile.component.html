@@ -1,21 +1,34 @@
-<h2>My Profile</h2>
+
 
 <div class="profile-container">
-  <h3>Name: {{ customer?.name }}</h3>
-  <p>Email: {{ customer?.email }}</p>
-  <p>City: {{ customer?.city }}</p>
-  <p>Address: {{ customer?.address }}</p>
-  
+  <div class="profile-card">
+    <h2 class="profile-title">My Profile</h2>
+    <h3>{{ customer?.name }}</h3>
+    <p><strong>Email:</strong> {{ customer?.email }}</p>
+    <p><strong>City:</strong> {{ customer?.city }}</p>
+    <p><strong>Address:</strong> {{ customer?.address }}</p>
 
-  <button routerLink="/profile/edit">Edit Profile</button>
-  <button (click)="fetchOrders()">Show Orders</button>
+    <div class="profile-actions">
+      <button class="btn edit-btn" routerLink="/profile/edit">Edit Profile</button>
+      <button class="btn orders-btn" (click)="fetchOrders()">Show Orders</button>
+    </div>
+  </div>
 
-  <div *ngIf="orders.length > 0">
+  <div *ngIf="orders.length > 0" class="orders-container">
     <h3>Order History</h3>
-    <ul>
-      <li *ngFor="let order of orders">
-        Order ID: {{ order.id }} - Total: {{ order.total }}$
-      </li>
-    </ul>
+    <div class="order-list">
+      <div class="order-card" *ngFor="let order of orders">
+        <img src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQyeLzp_g2l5QeSKpM-q2Y2V6o9WCToIuCANMPQqMDa6m6XgY4WjfmGyLay7S7nbKT7sVJDPU9wEZTbVJWe5F-nK2vvd6abQLuF6E5DBX09" alt="Product Image" class="product-image">
+        <!-- [src]="order.product_image"  -->
+        <div class="order-details">
+          <p><strong>Order ID:</strong> {{ order.id }}</p>
+          <p><strong>Product Name:</strong> {{ order.product_name }}</p>
+          <p><strong>Quantity:</strong> {{ order.quantity }} </p>
+          <p><strong>Placed On:</strong> {{ order.created_at | date }}</p>
+          <p><strong>Status:</strong> <span class="status" [ngClass]="order.status">{{ order.status }}</span></p>
+          <p><strong>Total:</strong> <span class="total-cost">₹{{ order.total_cost }}</span></p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

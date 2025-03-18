@@ -22,4 +22,5 @@ export class ProfileService {
       headers: { Authorization: `${localStorage.getItem('token')}` } //Bearer
     });
   }
+  
 }

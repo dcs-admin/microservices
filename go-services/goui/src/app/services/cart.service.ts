@@ -19,7 +19,7 @@ export class CartService {
 
   postOrder(orderData: any) {
     return this.http.post(`${this.apiUrl + environment.orderEndpoints.getAll}`, orderData, {
-      headers: new HttpHeaders(environment.defaultHeaders),
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
   }
 

@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"order-service/database"
 	"order-service/models"
-	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -26,19 +25,29 @@ func CreateOrderHandler(c *gin.Context) {
 		return
 	}
 
-	// Add timestamp to each order
+	// Add timestamp and prepare order_ids slice
+	var orderIDs []uint
 	for i := range orders {
 		orders[i].CreatedAt = time.Now()
 	}
 
-	// Save orders to database
+	// Save orders to the database
 	if err := database.DB.Create(&orders).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create order"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create orders"})
 		return
 	}
 
-	// Send JSON response
-	c.JSON(http.StatusCreated, gin.H{"message": "Order placed successfully"})
+	// Collect all order IDs
+	for _, order := range orders {
+		orderIDs = append(orderIDs, order.ID)
+	}
+
+	// Send JSON response with order reference IDs
+	c.JSON(http.StatusCreated, gin.H{
+		"message":     "Orders placed successfully",
+		"order_ids":   orderIDs,
+		"order_count": len(orderIDs),
+	})
 }
 
 // CreateOrder handles order creation
@@ -59,24 +68,23 @@ func CreateSingleOrder(c *gin.Context) {
 // GetOrders fetches orders based on customer_id or order_id
 func GetOrders(c *gin.Context) {
 
-	logrus.Info("GetOrders request received", c.Request.Context().Value(userIDKey))
-
-	// Retrieve user ID from request context
-	userID, ok := c.Request.Context().Value(userIDKey).(int)
-	if !ok {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized - User ID not found in token"})
+	// Get user ID from context
+	userID, exists := c.Get("user_id")
+	logrus.Info("JWT: userID:", userID)
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "User ID not found in context"})
 		return
 	}
 
 	// Convert user ID to string for querying DB
-	customerIDStr := strconv.Itoa(userID)
+	// customerIDStr := strconv.Itoa(userID)
 
 	// Check for optional order_id query parameter
 	orderID := c.Query("order_id")
 
 	// Prepare query
 	var orders []models.Order
-	query := database.DB.Where("customer_id = ?", customerIDStr)
+	query := database.DB.Where("customer_id = ?", userID)
 
 	if orderID != "" {
 		query = query.Where("id = ?", orderID)

@@ -46,7 +46,7 @@ export class AuthService {
     return localStorage.getItem('token') ?? '';
   }
 
-  getUser(): User | null {
+  getUser(): any {
     const userJson = localStorage.getItem('user');
     return userJson ? JSON.parse(userJson) : null;
   }
