@@ -74,10 +74,19 @@ func JWTMiddleware() gin.HandlerFunc {
 			return
 		}
 
+		// Retrieve user_id from token claims
+		email, ok := claims["email"].(string)
+		if !ok {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "email not found in token"})
+			c.Abort()
+			return
+		}
+
 		userID := int(userIDFloat) // Convert float64 to int
 
 		// Store user_id in Gin context
 		c.Set("user_id", userID)
+		c.Set("email", email)
 
 		c.Next() // Continue to next middleware/handler
 	}

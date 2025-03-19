@@ -27,7 +27,7 @@ import (
 var db *gorm.DB
 var validate *validator.Validate
 var jwtKey = []byte("MTc0MTg1MTg0NXxJa2xVY1hOVmNrWnhTWGQ1U1VSdmRqWTNZa3BNYVRsWVdGbGlVemR3TWsxb1ltbENUa1U0YkZNMlZGVTlJZ289fE07KlEGjYRED5UbyhiM_l6vVI33sYzVhU_TpR54Uy7Q")
-var limiter = rate.NewLimiter(1, 50)
+var limiter = rate.NewLimiter(1, 100)
 
 // Customer model
 type Customer struct {
@@ -38,8 +38,17 @@ type Customer struct {
 	City    string `json:"city" validate:"required"`
 }
 
+// Custom struct to hold additional data inside the JWT
+type UserData struct {
+	Role string `json:"role"`
+	Age  int    `json:"age"`
+}
+
+// Claims struct with an embedded UserData field
 type Claims struct {
-	Username string `json:"username"`
+	Id       json.Number `json:"id"`
+	Email    string      `json:"email"`
+	UserData UserData    `json:"user_data"` // Object inside claims
 	jwt.StandardClaims
 }
 
@@ -67,12 +76,24 @@ func rateLimitMiddleware(next http.Handler) http.Handler {
 
 // Generate JWT token
 func generateToken(w http.ResponseWriter, r *http.Request) {
-	claims := &Claims{
-		Username: "testuser",
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),
-		},
+	var claims Claims
+
+	// Decode JSON request body into 'input'
+	if err := json.NewDecoder(r.Body).Decode(&claims); err != nil {
+		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		return
 	}
+	log.Println("claims: ", claims.Id)
+	log.Println("claims to: ", claims)
+	claims.StandardClaims = jwt.StandardClaims{
+		ExpiresAt: time.Now().Add(24 * time.Hour).Unix()}
+
+	// claims := &Claims{
+	// 	Username: "testuser",
+	// 	StandardClaims: jwt.StandardClaims{
+	// 		ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),
+	// 	},
+	// }
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString(jwtKey)
 	if err != nil {
@@ -103,6 +124,7 @@ func authMiddleware(next http.Handler) http.Handler {
 			return jwtKey, nil
 		})
 		if err != nil || !token.Valid {
+			log.Println("Errror validating Token: ", err)
 			http.Error(w, "Invalid token", http.StatusUnauthorized)
 			return
 		}
@@ -274,7 +296,7 @@ func main() {
 	// Group routes under a subrouter to apply middleware globally
 	apiRouter := r.PathPrefix("/api").Subrouter()
 	// Define Routes
-	apiRouter.HandleFunc("/token", generateToken).Methods("GET")
+	apiRouter.HandleFunc("/token", generateToken).Methods("POST")
 	apiRouter.HandleFunc("/customers", CreateCustomer).Methods("POST")
 	apiRouter.HandleFunc("/customers", GetAllCustomers).Methods("GET")
 	apiRouter.HandleFunc("/customers/{id}", GetCustomerByID).Methods("GET")

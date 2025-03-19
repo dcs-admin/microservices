@@ -60,6 +60,10 @@ ng serve -o
 
 ```
 
+
+### Auth Service
+
+
 ### Customer Service
 
 ```
@@ -111,3 +115,5 @@ curl --location --request PUT 'http://localhost:8080/api/customers/3' \
 
 
 ### Order Service
+
+Will call both Product Service and Customer Service for demo - in GetOrders API

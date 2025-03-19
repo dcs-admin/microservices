@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"gorm.io/datatypes"
@@ -106,7 +107,15 @@ func authMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
+		// tokenString := c.GetHeader("Authorization")
+		// if tokenString == "" {
+		// 	c.JSON(http.StatusUnauthorized, gin.H{"error": "Missing token"})
+		// 	c.Abort()
+		// 	return
+		// }
+
 		tokenString := r.Header.Get("Authorization")
+		tokenString = strings.TrimPrefix(tokenString, "Bearer ")
 		if tokenString == "" {
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return
@@ -117,6 +126,7 @@ func authMiddleware(next http.Handler) http.Handler {
 			return jwtKey, nil
 		})
 		if err != nil || !token.Valid {
+			log.Println("Product Token Evolution Issue ", err)
 			http.Error(w, "Invalid token", http.StatusUnauthorized)
 			return
 		}
