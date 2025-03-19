@@ -5,8 +5,10 @@ import (
 	"auth-service/middleware"
 	"auth-service/models"
 	"auth-service/utils"
+	"bytes"
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 
 	"gorm.io/gorm"
@@ -35,6 +37,9 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "User already exists", http.StatusInternalServerError)
 		return
 	}
+
+	// Call customer-service to save additional details
+	go createCustomerInService(user)
 
 	json.NewEncoder(w).Encode(map[string]string{"message": "User registered successfully"})
 }
@@ -78,4 +83,31 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		"token": token,
 		"user":  user,
 	})
+}
+
+// createCustomerInService sends user details to customer-service (port 1000)
+func createCustomerInService(req models.User) {
+	customerData := map[string]interface{}{
+		"email":       req.Email, // Email as the main userID
+		"name":        req.Name,
+		"address":     req.Address,
+		"preferences": req.Preferences,
+		"location":    req.Location,
+		"sex":         req.Sex,
+		"city":        req.City,
+		"interests":   req.Interests,
+		"mobile":      req.Mobile,
+		"id":          req.ID,
+	}
+
+	jsonData, _ := json.Marshal(customerData)
+
+	resp, err := http.Post("http://localhost:1000/api/customers", "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		log.Println("Error sending data to customer-service:", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	log.Println("customer-service response:", resp.Status)
 }

@@ -1,12 +1,19 @@
 <div class="auth-container">
-    <h2>Register</h2>
-    <form (ngSubmit)="register()" name="ngForm">
-      <input type="text" name="t1" [(ngModel)]="name" placeholder="Name" required>
-      <input type="email" name="t2" [(ngModel)]="email" placeholder="Email" required>
-      <input type="password" name="t3" [(ngModel)]="password" placeholder="Password" required>
-      <button type="submit">Register</button>
-    </form>
-    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-    <p>Already have an account? <a routerLink="/login">Login</a></p>
-  </div>
-  
+  <h2>Register</h2>
+  <form (ngSubmit)="register()" name="ngForm">
+    <input type="text" name="name" [(ngModel)]="registerData.name" placeholder="Name" required>
+    <input type="email" name="email" [(ngModel)]="registerData.email" placeholder="Email" required>
+    <input type="password" name="password" [(ngModel)]="registerData.password" placeholder="Password" required>
+    <input type="password" name="confirmPassword" [(ngModel)]="registerData.confirmPassword" placeholder="Confirm Password" required>
+    <input type="text" name="address" [(ngModel)]="registerData.address" placeholder="Address">
+    <input type="text" name="preferences" [(ngModel)]="registerData.preferences" placeholder="Preferences">
+    <input type="text" name="location" [(ngModel)]="registerData.location" placeholder="Location">
+    <input type="text" name="sex" [(ngModel)]="registerData.sex" placeholder="Sex">
+    <input type="text" name="city" [(ngModel)]="registerData.city" placeholder="City">
+    <input type="text" name="interests" [(ngModel)]="registerData.interests" placeholder="Interests">
+    <input type="tel" name="mobile" [(ngModel)]="registerData.mobile" placeholder="Mobile" required>
+    <button type="submit">Register</button>
+  </form>
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+  <p>Already have an account? <a routerLink="/login">Login</a></p>
+</div>

@@ -36,6 +36,13 @@ type Customer struct {
 	Email   string `json:"email" validate:"required,email"`
 	Address string `json:"address" validate:"required"`
 	City    string `json:"city" validate:"required"`
+	//Address     string `json:"address"`
+	Preferences string `json:"preferences"`
+	Location    string `json:"location"`
+	Sex         string `json:"sex"`
+	//City        string `json:"city"`
+	Interests string `json:"interests"`
+	Mobile    string `json:"mobile"`
 }
 
 // Custom struct to hold additional data inside the JWT
@@ -108,7 +115,7 @@ func generateToken(w http.ResponseWriter, r *http.Request) {
 func authMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Skip authentication for the token endpoint
-		if r.URL.Path == "/api/token" {
+		if r.URL.Path == "/api/token" || r.URL.Path == "/api/customers" {
 			next.ServeHTTP(w, r)
 			return
 		}

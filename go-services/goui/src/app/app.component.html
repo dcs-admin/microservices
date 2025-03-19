@@ -7,7 +7,7 @@
     
     <nav>
       <span *ngIf="user">
-        <a class="show-profile-name" routerLink="/profile">Welcome, {{ user.name }}</a>
+        <a class="show-profile-name" routerLink="/profile">Welcome, {{ user.name }}({{ user.id }})</a>
       </span>
   
       <a class="head-button" routerLink="/profile" *ngIf="user">My Profile</a>
