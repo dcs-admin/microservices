@@ -15,6 +15,7 @@ export class EditProfileComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.authService.getUser();
+    console.log("User for edit:"+this.user)
   }
 
   updateProfile() {

@@ -23,6 +23,7 @@ export class ProfileComponent implements OnInit {
     this.user = this.authService.getUser(); // Get the logged-in user details
     this.customerService.getCustomer( this.user.id).subscribe(data => {
       this.customer = data;
+      this.authService.setOnlyUser(this.customer );
     });
   }
 

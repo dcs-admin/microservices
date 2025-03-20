@@ -11,6 +11,4 @@ type Order struct {
 	TotalCost  float64   `json:"total_cost"`
 	CreatedAt  time.Time `json:"created_at"`
 	Status     string    `json:"status"`
-	UpdatedAt  time.Time `json:"updated_at"`
-	UpdatedBy  string    `json:"updated_by"`
 }

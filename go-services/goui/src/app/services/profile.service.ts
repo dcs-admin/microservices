@@ -18,7 +18,7 @@ export class ProfileService {
   }
 
   updateProfile(userData: any): Observable<any> {
-    return this.http.put(`${environment.customerEndpoints.baseUrl }/profile`, userData, {
+    return this.http.put(`${environment.customerEndpoints.baseUrl }/${environment.customerEndpoints.getAll }/${userData.id}`, userData, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } //Bearer
     });
   }

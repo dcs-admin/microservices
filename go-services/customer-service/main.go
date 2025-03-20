@@ -284,7 +284,7 @@ func DeleteCustomer(w http.ResponseWriter, r *http.Request) {
 func setupCORS(handler http.Handler) http.Handler {
 	return handlers.CORS(
 		handlers.AllowedOrigins([]string{"http://localhost:4200"}), // ✅ Allow Angular frontend
-		handlers.AllowedMethods([]string{"GET", "POST", "OPTIONS"}),
+		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "OPTIONS"}),
 		handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
 	)(handler)
 }
