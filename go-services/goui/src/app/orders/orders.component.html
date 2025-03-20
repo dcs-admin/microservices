@@ -1,17 +1,35 @@
 <div *ngIf="orders.length > 0" class="orders-container">
     <h3>Order History</h3>
     <div class="order-list">
-      <div class="order-card" *ngFor="let order of orders">
+      <div class="order-card" *ngFor="let order of orders | slice:0:displayCount">
         <img src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQyeLzp_g2l5QeSKpM-q2Y2V6o9WCToIuCANMPQqMDa6m6XgY4WjfmGyLay7S7nbKT7sVJDPU9wEZTbVJWe5F-nK2vvd6abQLuF6E5DBX09" alt="Product Image" class="product-image">
         <!-- [src]="order.product_image"  -->
         <div class="order-details">
           <p><strong>Order ID:</strong> {{ order.id }}</p>
-          <p><strong>Product Name:</strong> {{ order.product.name }}</p>
+          <p><strong>Product Name:</strong> {{ order.product?.name || '429-Too Many Hits tp fetch product name'}}</p>
           <p><strong>Quantity:</strong> {{ order.quantity }} </p>
           <p><strong>Placed On:</strong> {{ order.created_at | date }}</p>
           <p><strong>Status:</strong> <span class="status" [ngClass]="order.status">{{ order.status }}</span></p>
           <p><strong>Total:</strong> <span class="total-cost">₹{{ order.total_cost }}</span></p>
+
+          <!-- <table>
+            <tr *ngFor="let key of getCustomerKeys(order.customer)">
+              <td><strong>{{ key | titlecase }}</strong></td>
+              <td>{{ order.customer[key] || 'N/A' }}</td>
+            </tr>
+          </table> -->
         </div>
       </div>
+
+      <!-- Show "Load More" Button Only If There Are More Orders -->
+   
+
     </div>
+
+    <div class="center">
+        <button *ngIf="displayCount < orders.length" (click)="loadMore()" class="btn btn-primary">
+            Load More
+        </button>
+    </div>
+   
   </div>

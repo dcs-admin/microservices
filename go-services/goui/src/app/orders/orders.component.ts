@@ -13,6 +13,7 @@ export class OrdersComponent implements OnInit {
   user: any;
   orders: any[] = [];
   customer: any;
+  displayCount = 5; // Show first 5 orders initially
 
   constructor(
     private profileService: ProfileService, 
@@ -33,4 +34,10 @@ export class OrdersComponent implements OnInit {
       this.orders = data;
     });
   }
+
+  loadMore() {
+    this.displayCount += 5; // Load 5 more orders on click
+  }
+
+  
 }

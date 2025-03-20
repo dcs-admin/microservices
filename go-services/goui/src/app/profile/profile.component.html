@@ -8,6 +8,15 @@
     <p><strong>City:</strong> {{ customer?.city }}</p>
     <p><strong>Address:</strong> {{ customer?.address }}</p>
 
+    <span class="my-orders"> <span class="my-orders-num"> X</span> Orders </span>
+    <br>
+    <hr>
+    <table class="table table-bordered">
+        <tr *ngFor="let key of getCustomerKeys(customer)">
+          <td ><strong>{{ key | titlecase }}</strong></td>
+          <td>{{ customer[key] || 'N/A' }}</td>
+        </tr>
+      </table>
     <div class="profile-actions">
       <button class="btn edit-btn" routerLink="/profile/edit">Edit Profile</button>
        

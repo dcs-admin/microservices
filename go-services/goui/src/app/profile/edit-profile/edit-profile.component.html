@@ -1,10 +1,51 @@
-<h2>Edit Profile</h2>
-<form (ngSubmit)="updateProfile()">
-  <label>Name:</label>
-  <input [(ngModel)]="user.name" name="name" required>
-
-  <label>Email:</label>
-  <input [(ngModel)]="user.email" name="email" required disabled>
-
-  <button type="submit">Save</button>
-</form>
+<form (ngSubmit)="updateProfile()" #profileForm="ngForm" class="form-container">
+    <h2>Edit Profile</h2>
+  
+    <div class="form-group">
+      <label>Name:</label>
+      <input [(ngModel)]="user.name" name="name" required class="form-control">
+    </div>
+  
+    <div class="form-group">
+      <label>Email:</label>
+      <input [(ngModel)]="user.email" name="email" required disabled class="form-control">
+    </div>
+  
+    <div class="form-group">
+      <label>Mobile:</label>
+      <input [(ngModel)]="user.mobile" name="mobile" class="form-control">
+    </div>
+  
+    <div class="form-group">
+      <label>City:</label>
+      <input [(ngModel)]="user.city" name="city" class="form-control">
+    </div>
+  
+    <div class="form-group">
+      <label>Address:</label>
+      <textarea [(ngModel)]="user.address" name="address" class="form-control"></textarea>
+    </div>
+  
+    <div class="form-group">
+      <label>Interests:</label>
+      <input [(ngModel)]="user.interests" name="interests" class="form-control">
+    </div>
+  
+    <div class="form-group">
+      <label>Preferences:</label>
+      <input [(ngModel)]="user.preferences" name="preferences" class="form-control">
+    </div>
+  
+    <div class="form-group">
+      <label>Sex:</label>
+      <select [(ngModel)]="user.sex" name="sex" class="form-control">
+        <option value="">Select</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+  
+    <button type="submit" class="btn btn-primary" [disabled]="profileForm.invalid">Save</button>
+  </form>
+  

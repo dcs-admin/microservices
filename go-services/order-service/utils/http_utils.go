@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"order-service/constants"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -27,7 +28,7 @@ func MakeGETRequest(url, token string) (map[string]interface{}, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New("service returned non-200 status")
+		return nil, errors.New("service returned non-200 status: " + strconv.Itoa(resp.StatusCode))
 	}
 
 	var response map[string]interface{}

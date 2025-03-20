@@ -58,7 +58,7 @@ func FetchOrders(c *gin.Context) ([]map[string]interface{}, error) {
 	}
 
 	// Fetch orders from DB
-	query := database.DB.Where("customer_id = ?", userID)
+	query := database.DB.Where("customer_id = ?", userID).Order("created_at DESC")
 	if err := query.Find(&orders).Error; err != nil {
 		return nil, err
 	}

@@ -26,5 +26,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  
+  getCustomerKeys(customer: object): string[] {
+    return Object.keys(customer);
+  }
 }

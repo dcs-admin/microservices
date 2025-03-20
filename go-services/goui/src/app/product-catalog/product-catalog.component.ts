@@ -17,6 +17,7 @@ export class ProductCatalogComponent  implements OnInit {
   
   cartItems: number = 0; // 🛒 Track cart items
   products: any[] = []; // 🛍 Store products from backend
+  displayCount = 10;
 
   constructor(private productService: ProductService,
     private sharedService: SharedService,
@@ -76,6 +77,7 @@ export class ProductCatalogComponent  implements OnInit {
 
   addToCart(product: any) {
     this.cartService.addToCart(product);
+    alert(product.name+" added to cart, please click on cart to buy")
   }
 
   fetchProducts() {
@@ -85,4 +87,10 @@ export class ProductCatalogComponent  implements OnInit {
         error => console.error('Error fetching products', error)
       );
   }
+
+
+  loadMore() {
+    this.displayCount += 5; // Load 5 more orders on click
+  }
+
 }
