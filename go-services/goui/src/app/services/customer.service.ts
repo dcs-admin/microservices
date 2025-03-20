@@ -14,13 +14,13 @@ export class CustomerService {
 
   getCustomer(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/customers/${id}`, {
-      headers: { Authorization: `${localStorage.getItem('token')}` }
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
   }
 
   updateCustomer(customerData: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/customers/${customerData.id}`, customerData, {
-      headers: { Authorization: `${localStorage.getItem('token')}` }
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
   }
 }

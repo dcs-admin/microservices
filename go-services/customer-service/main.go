@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -120,7 +121,9 @@ func authMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
+		//tokenString := r.Header.Get("Authorization")
 		tokenString := r.Header.Get("Authorization")
+		tokenString = strings.TrimPrefix(tokenString, "Bearer ")
 		if tokenString == "" {
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return

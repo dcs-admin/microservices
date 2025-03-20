@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"order-service/controller"
+	"order-service/controllers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,8 +20,8 @@ import (
 func SetupRouter(router *gin.Engine) {
 	api := router.Group("/api")
 	{
-		api.POST("/orders", controller.CreateOrderHandler)
-		api.GET("/orders", controller.GetOrders)
+		api.POST("/orders", controllers.CreateOrderHandler)
+		api.GET("/orders", controllers.GetOrders)
 		//api.GET("/orders/:id", controllers.GetOrderById)
 	}
 }
