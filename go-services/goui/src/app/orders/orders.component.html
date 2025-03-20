@@ -1,25 +1,33 @@
 <div *ngIf="orders.length > 0" class="orders-container">
     <h3>Order History</h3>
     <div class="order-list">
-      <div class="order-card" *ngFor="let order of orders | slice:0:displayCount">
-        <img src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQyeLzp_g2l5QeSKpM-q2Y2V6o9WCToIuCANMPQqMDa6m6XgY4WjfmGyLay7S7nbKT7sVJDPU9wEZTbVJWe5F-nK2vvd6abQLuF6E5DBX09" alt="Product Image" class="product-image">
-        <!-- [src]="order.product_image"  -->
-        <div class="order-details">
-          <p><strong>Order ID:</strong> {{ order.id }}</p>
-          <p><strong>Product Name:</strong> {{ order.product?.name || '429-Too Many Hits tp fetch product name'}}</p>
-          <p><strong>Quantity:</strong> {{ order.quantity }} </p>
-          <p><strong>Placed On:</strong> {{ order.created_at | date }}</p>
-          <p><strong>Status:</strong> <span class="status" [ngClass]="order.status">{{ order.status }}</span></p>
-          <p><strong>Total:</strong> <span class="total-cost">₹{{ order.total_cost }}</span></p>
-
-          <!-- <table>
-            <tr *ngFor="let key of getCustomerKeys(order.customer)">
-              <td><strong>{{ key | titlecase }}</strong></td>
-              <td>{{ order.customer[key] || 'N/A' }}</td>
-            </tr>
-          </table> -->
-        </div>
-      </div>
+        <div class="order-card" *ngFor="let order of orders | slice:0:displayCount">
+            <div class="order-header">
+              <h2 class="product-name">{{ order.product?.name || '429 - Too Many Requests' }}</h2>
+              <span class="order-date">{{ order.created_at | date: 'yyyy-MM-dd h:mm a' }}</span>
+            </div>
+            
+            <div class="order-body">
+              <img 
+                src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQyeLzp_g2l5QeSKpM-q2Y2V6o9WCToIuCANMPQqMDa6m6XgY4WjfmGyLay7S7nbKT7sVJDPU9wEZTbVJWe5F-nK2vvd6abQLuF6E5DBX09" 
+                alt="Product Image" class="product-image">
+              
+              <div class="order-info">
+                <div class="quantity-section">
+                  <span class="quantity">{{ order.quantity }}</span>
+                  <span class="quantity-label">Qty</span>
+                </div>
+          
+                <div class="status-section">
+                  <span class="status" [ngClass]="order.status">{{ order.status }}</span>
+                </div>
+                
+                <div class="total-section">
+                  ₹<span class="total-cost">{{ order.total_cost }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
       <!-- Show "Load More" Button Only If There Are More Orders -->
    

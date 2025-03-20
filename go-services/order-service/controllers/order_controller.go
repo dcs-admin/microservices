@@ -1,8 +1,11 @@
 package controllers
 
 import (
+	"encoding/json"
+	"log"
 	"net/http"
 	"order-service/database"
+	"order-service/kafka"
 	"order-service/models"
 	"order-service/services"
 	"time"
@@ -37,9 +40,33 @@ func CreateOrderHandler(c *gin.Context) {
 		return
 	}
 
-	// Collect all order IDs
+	// // Collect all order IDs
+	// for _, order := range orders {
+	// 	orderIDs = append(orderIDs, order.ID)
+	// }
+	// Publish each order to Kafka
 	for _, order := range orders {
-		orderIDs = append(orderIDs, order.ID)
+		event := map[string]interface{}{
+			"id":          order.ID,
+			"customer_id": order.CustomerID,
+			"product_id":  order.ProductID,
+			"quantity":    order.Quantity,
+			"total_cost":  order.TotalCost,
+			"status":      order.Status,
+			"created_at":  order.CreatedAt,
+		}
+
+		eventJSON, err := json.Marshal(event)
+		if err != nil {
+			log.Println("❌ Failed to marshal order event:", err)
+			continue
+		}
+
+		// Publish order event to Kafka
+		err = kafka.KafkaProducer("order-events", eventJSON)
+		if err != nil {
+			log.Println("❌ Failed to send event to Kafka:", err)
+		}
 	}
 
 	// Send JSON response with order reference IDs

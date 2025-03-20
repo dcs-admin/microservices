@@ -42,6 +42,10 @@ export class AuthService {
     this.userSubject.next(user);
   }
 
+  setOnlyUser(user: User) { 
+    localStorage.setItem('user', JSON.stringify(user)); 
+  }
+
   getUserToken(): string{
     return localStorage.getItem('token') ?? '';
   }
