@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package customer;
+option go_package = "github.com/your-org/proto-definitions/generated/customer";
+
+service CustomerService {
+    rpc GetCustomer (CustomerRequest) returns (CustomerResponse);
+    rpc GetCustomers (CustomerListRequest) returns (CustomerListResponse);
+}
+
+message CustomerRequest {
+    uint64 id = 1;
+}
+
+message CustomerResponse {
+    uint64 id = 1;
+    string name = 2;
+    string email = 3;
+}
+
+message CustomerListRequest {
+    repeated uint64 ids = 1;
+}
+
+message CustomerListResponse {
+    repeated CustomerResponse customers = 1;
+}

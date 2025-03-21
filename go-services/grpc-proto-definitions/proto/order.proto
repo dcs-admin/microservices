@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package order;
+option go_package = "github.com/your-org/proto-definitions/generated/order";
+
+service OrderService {
+    rpc GetOrder (OrderRequest) returns (OrderResponse);
+}
+
+message OrderRequest {
+    uint64 id = 1;
+}
+
+message OrderResponse {
+    uint64 id = 1;
+    uint64 customer_id = 2;
+    uint64 product_id = 3;
+    uint32 quantity = 4;
+    double total_cost = 5;
+    string status = 6;
+}

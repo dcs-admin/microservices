@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package product;
+option go_package = "github.com/your-org/proto-definitions/generated/product";
+
+service ProductService {
+    rpc GetProduct (ProductRequest) returns (ProductResponse);
+    rpc GetProducts (ProductListRequest) returns (ProductListResponse);
+}
+
+message ProductRequest {
+    uint64 id = 1;
+}
+
+message ProductResponse {
+    uint64 id = 1;
+    string name = 2;
+    double price = 3;
+}
+
+message ProductListRequest {
+    repeated uint64 ids = 1;
+}
+
+message ProductListResponse {
+    repeated ProductResponse products = 1;
+}
