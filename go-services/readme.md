@@ -1,18 +1,15 @@
 
-## Go Services Practise
+# Go Services Practise
+This proect represents an **architecture diagram** for a **Go microservices-based e-commerce system**. Here’s a breakdown of the components and their interactions:
 
-Key concepts covered in my article 
+---
 
-- Web Security and Attacks
--  Web Attacks
--  CSRF - protected - /submit
--  XSS - http://localhost:1234/xss?name=%3Cscript%3E%20alert(%27Anji%27)%3C/script%3E
--  CORS - Simple Request cors with allowed origins and http methods
--  JWT Token Authorization
--  Rate Limiting
+### 🔹 **Frontend (Client)**
+- **Goui:4200** (Angular 16, Node 18)
+  - The frontend UI built using **Angular**.
+  - Interacts with the backend via **api-gateway**.
 
-
-### GoUI
+  ### GoUI
 
 Angular application
 
@@ -61,10 +58,33 @@ ng serve -o
 ```
 
 
-### Auth Service
+---
 
+### 🔹 **API Gateway**
+- **api-gateway:1111** (Spring Boot 3.0)
+  - Acts as a central entry point for client requests.
+  - Handles:
+    - **JWT Authentication** (Auth Middleware)
+    - **CORS Policy**
+    - **Rate Limiting**
+    - **Security**
+    - **CRUD Operations**
+    - **Logging & Exception Handling**
+  - Routes requests to backend microservices.
 
-### Customer Service
+---
+
+### 🔹 **Backend Microservices (Go 1.23)**
+Each service is written in **Go** and manages a specific domain.
+
+#### **1️⃣ Authentication Service (`auth:8888`)**
+- Handles **user authentication**.
+- Issues **JWT tokens** for secure API calls.
+
+#### **2️⃣ Customer Service (`customers:1000`)**
+- Manages **customer data** stored in a database.
+- Serves customer-related information.
+
 
 ```
 cd /Users/vevana/anji/microservices/go-services/customer-service
@@ -110,50 +130,6 @@ curl --location --request PUT 'http://localhost:8080/api/customers/3' \
      
 }'
 ```
-
-### Product Service
-
-
-### Order Service
-
-Will call both Product Service and Customer Service for demo - in GetOrders API
-
-
-This image represents an **architecture diagram** for a **Go microservices-based e-commerce system**. Here’s a breakdown of the components and their interactions:
-
----
-
-### 🔹 **Frontend (Client)**
-- **Goui:4200** (Angular 16, Node 18)
-  - The frontend UI built using **Angular**.
-  - Interacts with the backend via **api-gateway**.
-
----
-
-### 🔹 **API Gateway**
-- **api-gateway:1111** (Spring Boot 3.0)
-  - Acts as a central entry point for client requests.
-  - Handles:
-    - **JWT Authentication** (Auth Middleware)
-    - **CORS Policy**
-    - **Rate Limiting**
-    - **Security**
-    - **CRUD Operations**
-    - **Logging & Exception Handling**
-  - Routes requests to backend microservices.
-
----
-
-### 🔹 **Backend Microservices (Go 1.23)**
-Each service is written in **Go** and manages a specific domain.
-
-#### **1️⃣ Authentication Service (`auth:8888`)**
-- Handles **user authentication**.
-- Issues **JWT tokens** for secure API calls.
-
-#### **2️⃣ Customer Service (`customers:1000`)**
-- Manages **customer data** stored in a database.
-- Serves customer-related information.
 
 #### **3️⃣ Product Service (`products:2000`)**
 - Stores and retrieves **product details**.
@@ -205,11 +181,3 @@ Each microservice has its own **database** for **data isolation**:
 6. **Order status is updated** to `"Dispatched"` in the database.
 7. **Customer gets real-time updates** on their order status.
 
----
-
-### 🚀 **Next Steps**
-- Do you need help with **Kafka producer/consumer implementation**?
-- Should we set up a **retry mechanism** for failed orders?
-- Would you like **real-time order tracking** using WebSockets?
-
-Let me know how I can assist further! 😊
