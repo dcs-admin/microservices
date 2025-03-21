@@ -34,3 +34,20 @@ Producer:
 Consumer:
 ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic order-events --from-beginning
 
+
+
+## How this service consuming the order details
+
+```
+INFO[0000] Auth Database  initiated!                    
+2025/03/20 20:52:03 🚀 Order Dispatcher Service is running... Listening for events.
+2025/03/20 20:52:03 📩 Received order event: {"created_at":"2025-03-20T20:51:16.409774+05:30","customer_id":6,"id":138,"product_id":4,"quantity":1,"status":"Pending","total_cost":9998}
+2025/03/20 20:52:03 🚚 Dispatching Order #138 for Customer #6
+2025/03/20 20:52:03 ✅ Order #138 updated to 'Dispatched' by Dispatched_service
+2025/03/20 20:52:03 📩 Received order event: {"created_at":"2025-03-20T20:51:16.409775+05:30","customer_id":6,"id":139,"product_id":9,"quantity":1,"status":"Pending","total_cost":15999}
+2025/03/20 20:52:03 🚚 Dispatching Order #139 for Customer #6
+2025/03/20 20:52:03 ✅ Order #139 updated to 'Dispatched' by Dispatched_service
+2025/03/20 20:52:03 📩 Received order event: {"created_at":"2025-03-20T20:51:16.409775+05:30","customer_id":6,"id":140,"product_id":8,"quantity":1,"status":"Pending","total_cost":699}
+2025/03/20 20:52:03 🚚 Dispatching Order #140 for Customer #6
+2025/03/20 20:52:03 ✅ Order #140 updated to 'Dispatched' by Dispatched_service
+```
