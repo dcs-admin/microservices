@@ -46,6 +46,7 @@ func CreateOrderHandler(c *gin.Context) {
 	// }
 	// Publish each order to Kafka
 	for _, order := range orders {
+		orderIDs = append(orderIDs, order.ID)
 		event := map[string]interface{}{
 			"id":          order.ID,
 			"customer_id": order.CustomerID,

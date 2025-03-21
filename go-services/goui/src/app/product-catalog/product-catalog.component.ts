@@ -77,7 +77,7 @@ export class ProductCatalogComponent  implements OnInit {
 
   addToCart(product: any) {
     this.cartService.addToCart(product);
-    alert(product.name+" added to cart, please click on cart to buy")
+    //alert(product.name+" added to cart, please click on cart to buy")
   }
 
   fetchProducts() {
