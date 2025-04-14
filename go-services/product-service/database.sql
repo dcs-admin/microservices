@@ -39,4 +39,7 @@ INSERT INTO products (`name`, price, currency, images, created_at, updated_at) V
 ('Portable Charger', 149, 'USD', '["https://example.com/powerbank.jpg"]', NOW(), NOW());
 
 
-update products set images="[\"https://vsprod.vijaysales.com/media/catalog/product/2/3/238685_1_.jpg?optimize=medium&fit=bounds&height=250&width=250\"]" where id > 10;
+-- update products set images="[\"https://vsprod.vijaysales.com/media/catalog/product/2/3/238685_1_.jpg?optimize=medium&fit=bounds&height=250&width=250\"]" where id > 10;
+UPDATE products
+SET images = '["https://vsprod.vijaysales.com/media/catalog/product/2/3/238685_1_.jpg?optimize=medium&fit=bounds&height=250&width=250"]'::jsonb
+WHERE id > 10;

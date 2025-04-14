@@ -1,0 +1,5 @@
+docker build -t auth-service:local ./auth-service
+docker build -t customer-service:local ./customer-service
+docker build -t order-service:local ./order-service
+docker build -t product-service:local ./product-service
+docker build -t order-dispatcher-service:local ./order-dispatcher-service

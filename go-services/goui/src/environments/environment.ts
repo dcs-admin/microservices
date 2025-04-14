@@ -2,22 +2,22 @@ export const environment = {
     production: false,
     //apiBaseUrl: 'http://localhost:2000/api', 
     authEndpoints: {
-      baseUrl: 'http://localhost:8888/api',
+      baseUrl: 'http://localhost:30001/api',
       register: '/auth/register',
       login: '/auth/login',
     },
     productEndpoints: {
-      baseUrl: 'http://localhost:2000/api',
+      baseUrl: 'http://localhost:30003/api',
       getAll: '/products',
       getById: '/products/', // Append ID when calling
     },
     customerEndpoints: {
-      baseUrl: 'http://localhost:1000/api',
+      baseUrl: 'http://localhost:30002/api',
       getAll: '/customers',
       getById: '/customers/', // Append ID when calling
     },
     orderEndpoints: {
-      baseUrl: 'http://localhost:3000/api',
+      baseUrl: 'http://localhost:30004/api',
       getAll: '/orders',
       getById: '/orders/', // Append ID when calling
     },

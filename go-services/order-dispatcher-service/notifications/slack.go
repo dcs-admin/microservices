@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"order-dispatcher-service/models"
@@ -22,6 +23,7 @@ type SlackMessage struct {
 	Username  string                   `json:"username"`
 	IconEmoji string                   `json:"icon_emoji"`
 	Blocks    []map[string]interface{} `json:"blocks"`
+	Text      string                   `json:"text"`
 }
 
 // SendSlackAlert sends a message to a Slack channel
@@ -46,40 +48,58 @@ func SendSlackAlert(order models.Order, message string) {
 	// 	IconEmoji: ":ghost",
 	// }
 
+	log.Println("webhookURL: ", webhookURL)
+
 	// Create Slack message blocks (Adaptive Card-like)
 	payload := SlackMessage{
 		Username:  slackBotName,
 		IconEmoji: ":ghost",
-		Blocks: []map[string]interface{}{
-			{"type": "section", "text": map[string]string{"type": "mrkdwn", "text": "*🚀 Order Processing!*\n"}},
-			{"type": "section", "fields": []map[string]string{
-				{"type": "mrkdwn", "text": fmt.Sprintf("*📦 Order ID:* `%d`", order.ID)},
-				{"type": "mrkdwn", "text": fmt.Sprintf("*👤 Customer ID:* `%d`", order.CustomerID)},
-				{"type": "mrkdwn", "text": fmt.Sprintf("*🛒 Product ID:* `%d`", order.ProductID)},
-				{"type": "mrkdwn", "text": fmt.Sprintf("*🔢 Quantity:* `%d`", order.Quantity)},
-				{"type": "mrkdwn", "text": fmt.Sprintf("*💰 Total Cost:* `₹%d`", order.TotalCost)},
-				{"type": "mrkdwn", "text": fmt.Sprintf("*⏳ Created At:* `%s`", order.CreatedAt.Format("2006-01-02 15:04:05"))},
-			}},
-			{"type": "divider"},
-			{"type": "section", "text": map[string]string{"type": "mrkdwn", "text": "📝 *Message:* " + message}},
-			{"type": "actions", "elements": []map[string]interface{}{
-				{
-					"type": "button",
-					"text": map[string]string{"type": "plain_text", "text": "🔍 View Order"},
-					"url":  "http://localhost:4200/#/orders",
-				},
-			}},
-		},
+		Text:      "This is posted to #all-onboarding and comes from a bot named webhookbot."}
+	// 	Blocks: []map[string]interface{}{
+	// 		{"type": "section", "text": map[string]string{"type": "mrkdwn", "text": "*🚀 Order Processing!*\n"}},
+	// 		{"type": "section", "fields": []map[string]string{
+	// 			{"type": "mrkdwn", "text": fmt.Sprintf("*📦 Order ID:* `%d`", order.ID)},
+	// 			{"type": "mrkdwn", "text": fmt.Sprintf("*👤 Customer ID:* `%d`", order.CustomerID)},
+	// 			{"type": "mrkdwn", "text": fmt.Sprintf("*🛒 Product ID:* `%d`", order.ProductID)},
+	// 			{"type": "mrkdwn", "text": fmt.Sprintf("*🔢 Quantity:* `%d`", order.Quantity)},
+	// 			{"type": "mrkdwn", "text": fmt.Sprintf("*💰 Total Cost:* `₹%d`", order.TotalCost)},
+	// 			{"type": "mrkdwn", "text": fmt.Sprintf("*⏳ Created At:* `%s`", order.CreatedAt.Format("2006-01-02 15:04:05"))},
+	// 		}},
+	// 		{"type": "divider"},
+	// 		{"type": "section", "text": map[string]string{"type": "mrkdwn", "text": "📝 *Message:* " + message}},
+	// 		{"type": "actions", "elements": []map[string]interface{}{
+	// 			{
+	// 				"type": "button",
+	// 				"text": map[string]string{"type": "plain_text", "text": "🔍 View Order"},
+	// 				"url":  "http://localhost:4200/#/orders",
+	// 			},
+	// 		}},
+	// 	},
+	// }
+
+	data, err := json.Marshal(payload)
+	if err != nil {
+		panic(err)
 	}
 
-	data, _ := json.Marshal(payload)
-
-	resp, err := http.Post(webhookURL, "application/json", bytes.NewBuffer(data))
+	req, err := http.NewRequest("POST", webhookURL, bytes.NewBuffer(data))
 	if err != nil {
-		log.Println("❌ Failed to send Slack alert:", err)
-		return
+		panic(err)
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("User-Agent", "PostmanRuntime/7.43.3")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
 	}
 	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println("Status:", resp.Status)
+	fmt.Println("Response body:", string(body))
 
 	if resp.StatusCode != http.StatusOK {
 		log.Println("⚠️ Slack returned non-200 response:", resp.Status)

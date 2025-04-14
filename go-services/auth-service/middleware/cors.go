@@ -10,7 +10,10 @@ import (
 func EnableCORS(handler http.Handler) http.Handler {
 	logrus.Info("CORS Enabled")
 	return handlers.CORS(
-		handlers.AllowedOrigins([]string{"http://localhost:4200"}), // ✅ Allow Angular frontend
+		handlers.AllowedOrigins([]string{
+			"http://localhost:4200",
+			"http://localhost:32000",
+		}), // ✅ Allow Angular frontend
 		handlers.AllowedMethods([]string{"GET", "POST", "OPTIONS"}),
 		handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
 	)(handler)

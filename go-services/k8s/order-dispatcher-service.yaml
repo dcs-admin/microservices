@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-dispatcher-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-dispatcher-service
+  template:
+    metadata:
+      labels:
+        app: order-dispatcher-service
+    spec:
+      containers:
+        - name: order-dispatcher-service
+          image: order-dispatcher-service:local
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 4000
+          env:
+            - name: DB_HOST
+              value: mysql 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-dispatcher-service
+spec:
+  selector:
+    app: order-dispatcher-service
+  ports:
+    - protocol: TCP
+      port: 4000       # Port exposed inside the cluster
+      targetPort: 4000 # Container port
+      nodePort:   30005
+  type: NodePort       # Optional: expose to your host system (Docker Desktop)

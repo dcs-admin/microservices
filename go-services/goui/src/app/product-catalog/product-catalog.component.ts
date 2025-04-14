@@ -17,7 +17,7 @@ export class ProductCatalogComponent  implements OnInit {
   
   cartItems: number = 0; // 🛒 Track cart items
   products: any[] = []; // 🛍 Store products from backend
-  displayCount = 10;
+  displayCount = 20;
 
   constructor(private productService: ProductService,
     private sharedService: SharedService,

@@ -13,7 +13,7 @@ export class OrdersComponent implements OnInit {
   user: any;
   orders: any[] = [];
   customer: any;
-  displayCount = 5; // Show first 5 orders initially
+  displayCount = 20; // Show first 5 orders initially
 
   constructor(
     private profileService: ProfileService, 

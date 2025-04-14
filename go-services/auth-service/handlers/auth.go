@@ -102,7 +102,7 @@ func createCustomerInService(req models.User) {
 
 	jsonData, _ := json.Marshal(customerData)
 
-	resp, err := http.Post("http://localhost:1000/api/customers", "application/json", bytes.NewBuffer(jsonData))
+	resp, err := http.Post("http://customer-service:1000/api/customers", "application/json", bytes.NewBuffer(jsonData))
 	if err != nil {
 		log.Println("Error sending data to customer-service:", err)
 		return
