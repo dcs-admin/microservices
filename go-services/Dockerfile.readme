@@ -1,5 +1,87 @@
+
+
+cd /Users/aevana/poc/microservices/go-services
+--
+
 docker build -t auth-service:local ./auth-service
-docker build -t customer-service:local ./customer-service
-docker build -t order-service:local ./order-service
 docker build -t product-service:local ./product-service
-docker build -t order-dispatcher-service:local ./order-dispatcher-service
+docker build -t customer-service:local ./customer-service
+docker buildx build --platform=linux/amd64 -t order-service:local ./order-service 
+docker buildx build --platform=linux/amd64 -t order-dispatcher-service:local ./order-dispatcher-service
+
+docker build -t goui:local ./goui
+
+
+kubectl delete pod -l app=auth-service
+kubectl delete pod -l app=product-service
+kubectl delete pod -l app=customer-service
+kubectl delete pod -l app=order-service
+kubectl delete pod -l app=order-dispatcher-service
+
+
+2>
+
+kubectl apply -f k8s/  --> As a whole
+
+kubectl apply -f k8s/auth-service.yaml
+kubectl apply -f k8s/product-service.yaml
+kubectl apply -f k8s/customer-service.yaml
+kubectl apply -f k8s/order-service.yaml
+kubectl apply -f k8s/order-dispatcher-service.yml
+kubectl apply -f k8s/goui
+
+
+
+UI
+==
+http://localhost:32000/#/
+
+
+Useful Kube commands
+====
+cd auth-service
+go build -o main .
+
+kubectl apply -f k8s/
+
+kubectl get pods -l app=auth-service
+kubectl describe pod <your-auth-pod-name>
+kubectl logs <your-auth-pod-name>
+
+kubectl get pods
+kubectl get svc
+
+
+
+How to install Kafka
+===
+brew install helm
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+helm install my-kafka bitnami/kafka
+
+
+Config==> "bootstrap.servers": "my-kafka.kafka.svc.cluster.local:9092"
+
+
+Temp POD
+===
+kubectl run curlpod --image=busybox -it --rm --restart=Never -- /bin/sh
+
+nslookup my-kafka
+telnet my-kafka 9092
+
+
+aevana@aevana0425mac .ssh % kubectl get pods
+NAME                                        READY   STATUS    RESTARTS      AGE
+auth-service-769c64c98c-lk967               1/1     Running   0             24h
+customer-service-56f8974cd4-9wsjr           1/1     Running   0             24h
+goui-5d48bc5c58-sg796                       1/1     Running   1             25h
+my-kafka-controller-0                       1/1     Running   0             24h
+my-kafka-controller-1                       1/1     Running   0             24h
+my-kafka-controller-2                       1/1     Running   0             24h
+mysql-6b84f7c56b-27kz6                      1/1     Running   0             26h
+order-dispatcher-service-6c8bcd4f47-2njb4   1/1     Running   1 (23h ago)   24h
+order-service-bf7cb64cb-bz4nw               1/1     Running   0             24h
+product-service-7b7c756d8-g66kz             1/1     Running   0             24h

@@ -1,0 +1,26 @@
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+helm install my-kafka bitnami/kafka \
+  --set replicaCount=1 \
+  --set zookeeper.enabled=true \
+  --set auth.enabled=false \
+  --set listeners.client.protocol=PLAINTEXT
+
+
+kubectl run my-kafka-client --restart='Never' --image docker.io/bitnami/kafka:4.0.0-debian-12-r0 --namespace default --command -- sleep infinity
+kubectl exec --tty -i my-kafka-client --namespace default -- bash
+
+TOPIC:
+	kafka-topics.sh --create --bootstrap-server my-kafka-controller-0.my-kafka-controller-headless.default.svc.cluster.local:9092 --replication-factor 1 --partitions 1 --topic order-events
+
+PRODUCER:
+    kafka-console-producer.sh \
+        --bootstrap-server my-kafka.default.svc.cluster.local:9092 \
+        --topic order-events
+
+CONSUMER:
+    kafka-console-consumer.sh \
+        --bootstrap-server my-kafka.default.svc.cluster.local:9092 \
+        --topic order-events \
+        --from-beginning

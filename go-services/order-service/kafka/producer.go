@@ -13,9 +13,16 @@ func KafkaProducer(topic string, message []byte) error {
 	kafkaBrokerUrl := os.Getenv("KAFKA_BROKER_URL")
 	dlqTopic := os.Getenv("KAFKA_DLQ_TOPIC") // Dead Letter Queue topic
 
-	producer, err := kafka.NewProducer(&kafka.ConfigMap{
+	config := &kafka.ConfigMap{
 		"bootstrap.servers": kafkaBrokerUrl,
-	})
+		//"bootstrap.servers":  "my-kafka:9092",
+		"security.protocol": "SASL_PLAINTEXT",
+		"sasl.mechanism":    "PLAIN",
+		"sasl.username":     "user",
+		"sasl.password":     "wwbWUSY7QY",
+	}
+
+	producer, err := kafka.NewProducer(config)
 	if err != nil {
 		return err
 	}
@@ -31,6 +38,7 @@ func KafkaProducer(topic string, message []byte) error {
 
 		if err == nil {
 			log.Println("✅ Order event published successfully:", string(message))
+			producer.Flush(2_000) //2sec
 			return nil
 		}
 
